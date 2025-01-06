@@ -8,14 +8,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 return { name, birthday, type };
             });
 
+            // 获取 GMT+9 的当前日期
             const today = getCurrentDateGMT9();
             const todayStr = getDateStr(today);
             const todayBirthdays = birthdays.filter(b => getBirthdayDate(b.birthday) === todayStr);
 
+            // 计算下一个生日
             const nextBirthday = getNextBirthday(birthdays, today);
             const nextBirthdayStr = getDateStr(nextBirthday.date);
             const nextBirthdays = birthdays.filter(b => getBirthdayDate(b.birthday) === nextBirthdayStr);
 
+            // 显示结果
+            displayTodayDate(todayStr, 'today-date'); // 显示今天的日期
             displayBirthdays(todayBirthdays, 'today-list');
             displayNextBirthday(nextBirthday.date, nextBirthdays, 'next-date', 'next-list');
         })
@@ -31,16 +35,19 @@ function getCurrentDateGMT9() {
     return gmt9;
 }
 
+// 将日期格式化为 "月日" 格式
 function getDateStr(date) {
     const month = date.getMonth() + 1;
     const day = date.getDate();
     return `${month}月${day}日`;
 }
 
+// 获取生日的 "月日" 格式
 function getBirthdayDate(birthdayStr) {
     return birthdayStr; // 生日已经是 "月日" 格式
 }
 
+// 计算下一个生日
 function getNextBirthday(birthdays, today) {
     let nextBirthday = null;
     let minDiff = Infinity;
@@ -48,7 +55,7 @@ function getNextBirthday(birthdays, today) {
     birthdays.forEach(b => {
         const birthdayDate = new Date(today.getFullYear(), parseInt(b.birthday.split('月')[0]) - 1, parseInt(b.birthday.split('月')[1].split('日')[0]));
         if (birthdayDate < today) {
-            birthdayDate.setFullYear(today.getFullYear() + 1);
+            birthdayDate.setFullYear(today.getFullYear() + 1); // 处理跨年
         }
         const diff = birthdayDate - today;
         if (diff > 0 && diff < minDiff) {
@@ -60,6 +67,13 @@ function getNextBirthday(birthdays, today) {
     return nextBirthday;
 }
 
+// 显示今天的日期
+function displayTodayDate(dateStr, dateId) {
+    const dateElement = document.getElementById(dateId);
+    dateElement.textContent = "今天是" + dateStr;
+}
+
+// 显示当前过生日的人
 function displayBirthdays(birthdays, listId) {
     const list = document.getElementById(listId);
     list.innerHTML = '';
@@ -79,6 +93,7 @@ function displayBirthdays(birthdays, listId) {
     }
 }
 
+// 显示下一个过生日的日期和人
 function displayNextBirthday(date, birthdays, dateId, listId) {
     const dateElement = document.getElementById(dateId);
     dateElement.textContent = getDateStr(date);
