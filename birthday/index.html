@@ -4,107 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>生日提醒</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            color: #333;
-            padding: 20px;
-        }
-        h1 {
-            text-align: center;
-        }
-        .birthday-list {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        .birthday-item {
-            background-color: #fff;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        .birthday-item.ch {
-            background-color: #e3f2fd;
-        }
-        .birthday-item.cv {
-            background-color: #fff3e0;
-        }
-        .birthday-item span {
-            font-weight: bold;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>生日提醒</h1>
-    <div class="birthday-list" id="birthday-list">
-        <!-- 生日列表将在这里动态生成 -->
+    <div class="container">
+        <h1>生日提醒</h1>
+        <div id="current-birthdays">
+            <h2>今天过生日的人</h2>
+            <ul id="today-list"></ul>
+        </div>
+        <div id="next-birthdays">
+            <h2>下一个生日</h2>
+            <p id="next-date"></p>
+            <ul id="next-list"></ul>
+        </div>
     </div>
-
-    <script>
-        // 获取当前时间（GMT+9）
-        const now = new Date();
-        const offset = 9; // GMT+9
-        now.setHours(now.getHours() + offset);
-
-        // 读取CSV文件
-        fetch('birthday.csv')
-            .then(response => response.text())
-            .then(data => {
-                const lines = data.split('\n');
-                const birthdays = [];
-
-                // 解析CSV数据
-                for (let i = 1; i < lines.length; i++) {
-                    const [name, birthday, type] = lines[i].split(',');
-                    if (name && birthday && type) {
-                        const [month, day] = birthday.split('月');
-                        const date = new Date(now.getFullYear(), parseInt(month) - 1, parseInt(day));
-                        birthdays.push({ name, date, type });
-                    }
-                }
-
-                // 筛选出今天过生日的人
-                const todayBirthdays = birthdays.filter(b => 
-                    b.date.getMonth() === now.getMonth() && b.date.getDate() === now.getDate()
-                );
-
-                // 找到下一个过生日的人
-                let nextBirthday = null;
-                for (const b of birthdays) {
-                    if (b.date > now) {
-                        if (!nextBirthday || b.date < nextBirthday.date) {
-                            nextBirthday = b;
-                        }
-                    }
-                }
-
-                // 显示结果
-                const list = document.getElementById('birthday-list');
-                if (todayBirthdays.length > 0) {
-                    list.innerHTML += '<h2>今天过生日的人</h2>';
-                    todayBirthdays.forEach(b => {
-                        list.innerHTML += `
-                            <div class="birthday-item ${b.type}">
-                                <span>${b.name}</span> - ${b.date.getMonth() + 1}月${b.date.getDate()}日 (${b.type})
-                            </div>
-                        `;
-                    });
-                } else {
-                    list.innerHTML += '<p>今天没有人过生日。</p>';
-                }
-
-                if (nextBirthday) {
-                    list.innerHTML += '<h2>下一个过生日的人</h2>';
-                    list.innerHTML += `
-                        <div class="birthday-item ${nextBirthday.type}">
-                            <span>${nextBirthday.name}</span> - ${nextBirthday.date.getMonth() + 1}月${nextBirthday.date.getDate()}日 (${nextBirthday.type})
-                        </div>
-                    `;
-                }
-            })
-            .catch(error => console.error('无法读取CSV文件:', error));
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
