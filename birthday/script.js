@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 return { name, birthday, type };
             });
 
-            const today = new Date();
+            const today = getCurrentDateGMT9();
             const todayStr = getDateStr(today);
             const todayBirthdays = birthdays.filter(b => getBirthdayDate(b.birthday) === todayStr);
 
@@ -21,6 +21,15 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(error => console.error('Error fetching the CSV file:', error));
 });
+
+// 获取 GMT+9 的当前日期
+function getCurrentDateGMT9() {
+    const now = new Date();
+    const offset = 9; // GMT+9
+    const utc = now.getTime() + (now.getTimezoneOffset() * 60000); // 转换为 UTC 时间
+    const gmt9 = new Date(utc + (3600000 * offset)); // 转换为 GMT+9 时间
+    return gmt9;
+}
 
 function getDateStr(date) {
     const month = date.getMonth() + 1;
