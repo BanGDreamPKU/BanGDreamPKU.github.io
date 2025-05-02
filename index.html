@@ -16,9 +16,12 @@
             background: #94070a;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             display: flex;
+            justify-content: space-between;
             align-items: center;
             padding-left: 20px;
+            padding-right: 20px;
             z-index: 1000;
+            box-sizing: border-box;
         }
 
         .top-bar .left-text {
@@ -26,6 +29,15 @@
             font-weight: bold;
             color: #f4f4f9;
             letter-spacing: 1px;
+        }
+
+        .top-bar .right-text {
+            font-size: 16px;
+            color: #f4f4f9;
+            letter-spacing: 1px;
+            display: flex;
+            gap: 18px;
+            padding-top: 1px;
         }
 
         body {
@@ -85,8 +97,15 @@
 <body>
     <nav class="top-bar">
         <a href="https://bangdreampku.github.io/" class="left-text" style="text-decoration: none;">组合数学</a>
+        <div class="right-text">
+            <span>🚀力儿八概论</span>
+            <a href="https://bangdreampku.github.io/birthday/" style="text-decoration: none; color: inherit;">
+                <span>🎂生日提醒</span>
+            </a>
+            <span>➕我要加群！</span>
+        </div>
     </nav>
-    
+
     <div class="container">
         <img src="./assets/flag.png" width="400">
         <h1>组合数学 - 北京大学BanGDream!国服玩家群</h1>
