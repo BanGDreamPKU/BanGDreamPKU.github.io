@@ -36,7 +36,7 @@
             margin-bottom: 20px;
         }
         .qrcode {
-            width: 200px;
+            width: 300px;
             margin: 0 auto;
             border: 1px solid #ddd;
             border-radius: 10px;
@@ -46,10 +46,13 @@
             width: 100%;
             height: 100%;
         }
-        .footer {
-            margin-top: 20px;
-            font-size: 14px;
-            color: #777;
+        .loading {
+            color: #666;
+            font-style: italic;
+        }
+        .error {
+            color: #d32f2f;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -58,101 +61,51 @@
         <h1>组合数学 - 北京大学BanGDream!国服玩家群</h1>
         <p>欢迎加入"组合数学"！这是一个由北京大学BanGDream!爱好者组成的兴趣社群。虽然始于国服，我们也欢迎日服玩家，甚至是不玩游戏，只想讨论剧情、二创和企划新闻的新群友。只要不是完全不知道邦邦就行！</p>
         <div class="qrcode">
-            <img id="encryptedQR" alt="入群二维码" style="display: none;">
-            <div id="qrPlaceholder">正在加载二维码...</div>
+            <div id="qr-container">
+                <p class="loading">正在加载二维码...</p>
+            </div>
         </div>
         <p>由于微信群人数限制，需要先扫码加入入口群，在入口群内添加好友后，由好友邀请入群</p>
     </div>
 
     <script>
-        // 从URL获取token参数
-        const urlParams = new URLSearchParams(window.location.search);
-        const token = urlParams.get('token');
-        
-        // 如果URL中有token，尝试加载并解密二维码
-        if (token) {
-            loadAndDecryptQR(token).catch(error => {
-                console.error('解密失败:', error);
-                document.getElementById('qrPlaceholder').textContent = '二维码加载失败，请检查Token是否正确';
-            });
-        } else {
-            document.getElementById('qrPlaceholder').textContent = '请提供有效的访问Token';
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get token from URL search parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const token = urlParams.get('token');
 
-        async function loadAndDecryptQR(token) {
-            // 获取加密的二维码图片
-            const response = await fetch('encrypted.gif');
-            if (!response.ok) throw new Error('二维码加载失败');
-            const encrypted = await response.arrayBuffer();
+            if (!token) {
+                document.getElementById('qr-container').innerHTML = 
+                    `<p class="error">请使用带token的URL</p>`;
+            }
             
-            // 解密数据
-            const decrypted = await decryptData(encrypted, token);
+            // Construct the QR code URL with the token
+            const qrCodeUrl = `https://qr.leo-h.top/image${token ? '?token=' + encodeURIComponent(token) : ''}`;
             
-            // 创建Blob并显示图片
-            const blob = new Blob([decrypted], { type: 'image/gif' });
-            const url = URL.createObjectURL(blob);
-            
-            const qrImg = document.getElementById('encryptedQR');
-            qrImg.onload = () => {
-                URL.revokeObjectURL(url);
-                document.getElementById('qrPlaceholder').style.display = 'none';
-                qrImg.style.display = 'block';
-            };
-            
-            qrImg.onerror = () => {
-                URL.revokeObjectURL(url);
-                throw new Error('二维码显示失败');
-            };
-            
-            qrImg.src = url;
-        }
-
-        async function decryptData(data, password) {
-            // 1. 准备盐值
-            const salt = new TextEncoder().encode('BanGDream');
-            const iterations = 947;
-            
-            // 2. 将ArrayBuffer转换为Uint8Array
-            const encryptedData = new Uint8Array(data);
-            
-            // 3. 提取IV (前16字节)
-            const iv = encryptedData.slice(0, 16);
-            const actualData = encryptedData.slice(16);
-            
-            // 4. 使用PBKDF2派生密钥
-            const keyMaterial = await crypto.subtle.importKey(
-                'raw',
-                new TextEncoder().encode(password),
-                { name: 'PBKDF2' },
-                false,
-                ['deriveKey']
-            );
-            
-            const derivedKey = await crypto.subtle.deriveKey(
-                {
-                    name: 'PBKDF2',
-                    salt: salt,
-                    iterations: iterations,
-                    hash: 'SHA-256'
-                },
-                keyMaterial,
-                { name: 'AES-CBC', length: 256 },
-                false,
-                ['decrypt']
-            );
-            
-            // 5. 解密数据
-            const decrypted = await crypto.subtle.decrypt(
-                {
-                    name: 'AES-CBC',
-                    iv: iv
-                },
-                derivedKey,
-                actualData
-            );
-            
-            return decrypted;
-        }
+            // Fetch the QR code data
+            fetch(qrCodeUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('获取二维码失败');
+                    }
+                    return response.text();
+                })
+                .then(qrCodeData => {
+                    const qrContainer = document.getElementById('qr-container');
+                    if (qrCodeData.startsWith('http') || qrCodeData.startsWith('data:image')) {
+                        // If it's a URL or data URI
+                        qrContainer.innerHTML = `<img src="${qrCodeData}" alt="入群二维码">`;
+                    } else {
+                        // Handle other cases if needed
+                        qrContainer.innerHTML = `<p class="error">无效的二维码数据</p>`;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching QR code:', error);
+                    document.getElementById('qr-container').innerHTML = 
+                        `<p class="error">加载失败，请检查token</p>`;
+                });
+        });
     </script>
 </body>
 </html>
