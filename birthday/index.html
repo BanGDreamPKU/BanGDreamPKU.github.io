@@ -61,6 +61,33 @@
             height: 100vh;
             flex-direction: column;
         }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+
+            opacity: 0;
+            /* 初始完全透明 */
+            visibility: hidden;
+            /* 初始隐藏元素 */
+            transform: translateY(20px);
+            /* 初始下移20像素 */
+            transition: all 1s ease-out;
+            /* 过渡效果持续1秒 */
+        }
+
+        .container.active {
+            opacity: 1;
+            /* 最终完全不透明 */
+            visibility: visible;
+            /* 显示元素 */
+            transform: translateY(0);
+            /* 恢复原始位置 */
+        }
     </style>
 </head>
 
@@ -95,6 +122,14 @@
         </div>
     </div>
     <script src="script.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // 页面加载完成后添加active类触发动画
+            setTimeout(() => {
+                document.querySelector('.container').classList.add('active');
+            }, 100); // 添加100ms延迟确保动画生效
+        });
+    </script>
 </body>
 
 </html>
