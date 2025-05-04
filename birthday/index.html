@@ -88,6 +88,66 @@
             transform: translateY(0);
             /* 恢复原始位置 */
         }
+
+        /* 新增移动端专用样式 */
+        @media (max-width: 480px) {
+            .top-bar {
+                height: 44px;
+                padding: 0 8px;
+            }
+
+            .top-bar .left-title {
+                font-size: 17px;
+            }
+
+            .top-bar .right-text {
+                font-size: 13px;
+                gap: 8px;
+            }
+
+            /* 隐藏文字只保留图标 */
+            .right-text span:not(:has(span)) {
+                display: none;
+            }
+
+            .right-text a span::after {
+                content: "加群";
+                display: inline;
+            }
+
+            /* 内容适配 */
+            .container {
+                padding: 10px;
+                margin-top: 50px;
+            }
+
+            h1 {
+                font-size: 20px;
+                line-height: 1.3;
+            }
+
+            p {
+                font-size: 14px;
+                line-height: 1.6;
+            }
+
+            img {
+                max-width: 100%;
+                /* 图片自适应 */
+                height: auto;
+            }
+        }
+
+        /* 防止横屏文字过小 */
+        @media (max-width: 480px) and (orientation: landscape) {
+            .top-bar {
+                height: 40px;
+            }
+
+            .container {
+                margin-top: 40px;
+            }
+        }
     </style>
 </head>
 
