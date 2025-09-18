@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    fetch('birthday.csv')
+    fetch('birthday.txt')
         .then(response => response.text())
         .then(data => {
             const rows = data.split('\n').slice(1); // 去掉标题行
