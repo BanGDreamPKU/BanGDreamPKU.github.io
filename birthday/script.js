@@ -153,11 +153,7 @@ function renderBirthdayLists(birthdayData) {
     const tokyoDate = getTokyoDate();
     const currentMonth = tokyoDate.getMonth() + 1; // 月份从1开始
     const currentDay = tokyoDate.getDate();
-    
-    // 更新当前日期显示
-    document.getElementById('current-date').innerHTML = 
-        `<i class="icon-calendar-o"></i> ${formatDate(tokyoDate)}`;
-    
+  
     // 为每个生日计算距离今天的天数，并按天数排序
     const processedData = birthdayData.map(person => {
         const daysUntilBirthday = getDaysUntilBirthday(
