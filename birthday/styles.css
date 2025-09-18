@@ -40,8 +40,7 @@
     width: 100%;
     margin-right: auto;
     margin-left: auto;
-    padding-right: 1rem;
-    padding-left: 1rem;
+    padding-top: 80px;
     max-width: 64rem;
 }
 
@@ -97,10 +96,6 @@
 
 .text-gray-500 {
     color: var(--color-gray-500);
-}
-
-.text-gray-600 {
-    color: var(--color-gray-600);
 }
 
 .text-gray-800 {
@@ -165,11 +160,6 @@
     padding-bottom: 0.75rem;
 }
 
-.py-8 {
-    padding-top: 2rem;
-    padding-bottom: 2rem;
-}
-
 .mb-3 {
     margin-bottom: 0.75rem;
 }
@@ -178,20 +168,12 @@
     margin-bottom: 1.5rem;
 }
 
-.mb-8 {
-    margin-bottom: 2rem;
-}
-
 .mb-10 {
     margin-bottom: 2.5rem;
 }
 
 .mt-1 {
     margin-top: 0.25rem;
-}
-
-.mt-3 {
-    margin-top: 0.75rem;
 }
 
 /* 弹性布局类 */
