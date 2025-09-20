@@ -4,49 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="./assets/symbol.png">
+    <link rel="icon" href="/assets/symbol.png">
     <title>组合数学 - 力儿八概论</title>
     <style>
-        .top-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 60px;
-            background: #94070a;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-left: 20px;
-            padding-right: 20px;
-            z-index: 1000;
-            box-sizing: border-box;
-        }
-
-        .top-bar .left-title {
-            font-size: 23px;
-            font-weight: bold;
-            color: #f4f4f9;
-            letter-spacing: 1px;
-        }
-
-        .top-bar .left-text {
-            font-size: 16px;
-            color: #f4f4f9;
-            letter-spacing: 1px;
-            padding-top: 1px;
-        }
-
-        .top-bar .right-text {
-            font-size: 16px;
-            color: #f4f4f9;
-            letter-spacing: 1px;
-            display: flex;
-            gap: 18px;
-            padding-top: 1px;
-        }
-
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f9;
@@ -113,24 +73,6 @@
 
         /* 新增移动端专用样式 */
         @media (max-width: 480px) {
-            .top-bar {
-                height: 44px;
-                padding: 0 8px;
-            }
-
-            .top-bar .left-title {
-                font-size: 17px;
-            }
-
-            .top-bar .left-text {
-                display: none
-            }
-
-            .top-bar .right-text {
-                font-size: 12px;
-                gap: 8px;
-            }
-
             /* 内容适配 */
             .container {
                 padding: 10px;
@@ -157,10 +99,6 @@
 
         /* 防止横屏文字过小 */
         @media (max-width: 480px) and (orientation: landscape) {
-            .top-bar {
-                height: 40px;
-            }
-
             .container {
                 margin-top: 40px;
             }
@@ -169,25 +107,8 @@
 </head>
 
 <body>
-    <nav class="top-bar">
-        <div>
-            <a class="left-title" href="/" style="text-decoration: none;">
-                <span>组合数学</span>
-            </a>
-            <a class="left-text" href="/garupaintro/" style="text-decoration: none;">
-                <span>/力儿八概论</span>
-            </a>
-        </div>
-        <div class="right-text">
-            <a href="/garupaintro/" style="text-decoration: none; color: inherit;">
-                <span>🚀力儿八概论</span>
-            </a>
-            <a href="/birthday/" style="text-decoration: none; color: inherit;">
-                <span>🎂生日提醒</span>
-            </a>
-            <span>➕我要加群！</span>
-        </div>
-    </nav>
+    <div id="top-bar-placeholder" chinese_pathname="/力儿八盖伦/关于抽卡"></div>
+    <script src="/common/top-bar/load.js"></script>
 
     <div class="context">
         <h1>关于抽卡</h1>
