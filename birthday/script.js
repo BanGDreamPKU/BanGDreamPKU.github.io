@@ -39,38 +39,51 @@ function parseBirthday(birthdayStr) {
 }
 
 /**
- * 计算两个日期（月/日）之间的天数差（考虑跨年）
- * @param {number} currentMonth - 当前月份（1-12）
- * @param {number} currentDay - 当前日期（1-31）
+ * 计算距离下一个生日的毫秒数（考虑跨年）
+ * @param {Date} now - 当前东京时间Date对象
  * @param {number} birthdayMonth - 生日月份（1-12）
  * @param {number} birthdayDay - 生日日期（1-31）
- * @returns {number} 距离生日的天数
+ * @returns {number} 距离生日的毫秒数
  */
-function getDaysUntilBirthday(currentMonth, currentDay, birthdayMonth, birthdayDay) {
-    let days = 0;
+function getMsUntilBirthday(now, birthdayMonth, birthdayDay) {
     const isLeapYear = (year) => (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
-    
+    let year = now.getFullYear();
     // 处理2月29日的特殊情况（非闰年时按2月28日计算）
-    if (birthdayMonth === 2 && birthdayDay === 29) {
-        const checkYear = currentMonth > 2 ? new Date().getFullYear() + 1 : new Date().getFullYear();
-        birthdayDay = isLeapYear(checkYear) ? 29 : 28;
+    let bMonth = birthdayMonth, bDay = birthdayDay;
+    if (bMonth === 2 && bDay === 29) {
+        const checkYear = (now.getMonth() + 1 > 2) ? year + 1 : year;
+        bDay = isLeapYear(checkYear) ? 29 : 28;
     }
+    let nextBirthday = new Date(year, bMonth - 1, bDay, 0, 0, 0, 0);
+    if (nextBirthday < now) {
+        year += 1;
+        // 再次处理闰年
+        if (bMonth === 2 && bDay === 29) {
+            bDay = isLeapYear(year) ? 29 : 28;
+        }
+        nextBirthday = new Date(year, bMonth - 1, bDay, 0, 0, 0, 0);
+    }
+    return nextBirthday - now;
+}
 
-    // 如果生日在今年剩余时间内
-    if (birthdayMonth > currentMonth || 
-        (birthdayMonth === currentMonth && birthdayDay >= currentDay)) {
-        // 计算从今天到今年生日的天数
-        const currentDate = new Date(2000, currentMonth - 1, currentDay);
-        const birthdayDate = new Date(2000, birthdayMonth - 1, birthdayDay);
-        days = Math.ceil((birthdayDate - currentDate) / (1000 * 60 * 60 * 24));
+/**
+ * 根据毫秒数格式化距离生日的字符串
+ * @param {number} ms - 距离生日的毫秒数
+ * @returns {string} 格式化后的字符串
+ */
+function formatDistanceToBirthday(ms) {
+    if (ms < 60 * 1000) {
+        return '不到1分钟后';
+    } else if (ms < 60 * 60 * 1000) {
+        const min = Math.ceil(ms / (60 * 1000));
+        return `${min}分钟后`;
+    } else if (ms < 24 * 60 * 60 * 1000) {
+        const hour = Math.ceil(ms / (60 * 60 * 1000));
+        return `${hour}小时后`;
     } else {
-        // 计算今年剩余天数 + 明年到生日的天数
-        const daysThisYear = 365 + (isLeapYear(2000) ? 1 : 0) - new Date(2000, currentMonth - 1, currentDay).getDayOfYear();
-        const daysNextYear = new Date(2001, birthdayMonth - 1, birthdayDay).getDayOfYear();
-        days = daysThisYear + daysNextYear;
+        const day = Math.ceil(ms / (24 * 60 * 60 * 1000));
+        return `${day}天后`;
     }
-    
-    return days;
 }
 
 /**
@@ -153,36 +166,33 @@ function renderBirthdayLists(birthdayData) {
     const tokyoDate = getTokyoDate();
     const currentMonth = tokyoDate.getMonth() + 1; // 月份从1开始
     const currentDay = tokyoDate.getDate();
-  
-    // 为每个生日计算距离今天的天数，并按天数排序
+
+    // 为每个生日计算距离今天的毫秒数，并按距离排序
     const processedData = birthdayData.map(person => {
-        const daysUntilBirthday = getDaysUntilBirthday(
-            currentMonth, 
-            currentDay, 
-            person.month, 
+        const msUntilBirthday = getMsUntilBirthday(
+            tokyoDate,
+            person.month,
             person.day
         );
-        
         return {
             ...person,
-            daysUntilBirthday,
-            isToday: daysUntilBirthday === 0
+            msUntilBirthday,
+            isToday: tokyoDate.getDate() === person.day && tokyoDate.getMonth() + 1 === person.month
         };
     }).sort((a, b) => {
-        // 按距离天数升序排序，天数相同则按月份排序，月份相同则按日期排序
-        if (a.daysUntilBirthday !== b.daysUntilBirthday) {
-            return a.daysUntilBirthday - b.daysUntilBirthday;
+        if (a.msUntilBirthday !== b.msUntilBirthday) {
+            return a.msUntilBirthday - b.msUntilBirthday;
         }
         if (a.month !== b.month) {
             return a.month - b.month;
         }
         return a.day - b.day;
     });
-    
+
     // 分离今日寿星和其他生日数据
     const todayBirthdays = processedData.filter(person => person.isToday);
     const otherBirthdays = processedData.filter(person => !person.isToday);
-    
+
     // 渲染今日寿星区域
     const todayListElement = document.getElementById('today-birthdays-list');
     if (todayBirthdays.length === 0) {
@@ -190,7 +200,7 @@ function renderBirthdayLists(birthdayData) {
             <div class="col-span-full text-center text-gray-500 py-8 bg-gray-50 rounded-lg">
                 <i class="icon-calendar text-xl mb-2"></i>
                 <p>今天没有人过生日，期待后续的生日祝福吧！</p>
-                <p class="text-sm mt-1">下次生日将在${otherBirthdays[0]?.daysUntilBirthday || '未知'}天后到来</p>
+                <p class="text-sm mt-1">下次生日将在${otherBirthdays[0] ? formatDistanceToBirthday(otherBirthdays[0].msUntilBirthday) : '未知'}</p>
             </div>
         `;
     } else {
@@ -211,7 +221,7 @@ function renderBirthdayLists(birthdayData) {
             </div>
         `).join('');
     }
-    
+
     // 渲染所有生日列表区域
     const allListElement = document.getElementById('all-birthdays-list');
     if (otherBirthdays.length === 0) {
@@ -233,13 +243,13 @@ function renderBirthdayLists(birthdayData) {
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-2 text-gray-500">
                         <i class="icon-clock-o"></i>
-                        <span>${person.daysUntilBirthday}天后</span>
+                        <span>${formatDistanceToBirthday(person.msUntilBirthday)}</span>
                     </div>
                     <span class="date-badge">${person.originalBirthday}</span>
                 </div>
             </div>
         `).join('');
-        
+
         // 添加渐入动画效果
         setTimeout(() => {
             const cards = document.querySelectorAll('#all-birthdays-list .birthday-card');
@@ -247,7 +257,7 @@ function renderBirthdayLists(birthdayData) {
                 card.style.opacity = '0';
                 card.style.transform = 'translateY(20px)';
                 card.style.transition = 'all 0.5s ease';
-                
+
                 setTimeout(() => {
                     card.style.opacity = '1';
                     card.style.transform = 'translateY(0)';
