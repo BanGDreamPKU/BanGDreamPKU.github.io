@@ -12,21 +12,6 @@ function getTokyoDate() {
 }
 
 /**
- * 格式化日期显示
- * @param {Date} date - 要格式化的Date对象
- * @returns {string} 格式化后的日期字符串（如：2024年05月20日 星期一）
- */
-function formatDate(date) {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    const weekdays = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
-    const weekday = weekdays[date.getDay()];
-    
-    return `${year}年${month}月${day}日 ${weekday}`;
-}
-
-/**
  * 解析生日字符串（如"1月2日"）为月份和日期
  * @param {string} birthdayStr - 生日字符串
  * @returns {Object} 包含month和day的对象（数字类型）
@@ -179,21 +164,13 @@ function renderBirthdayLists(birthdayData) {
             msUntilBirthday,
             isToday: tokyoDate.getDate() === person.day && tokyoDate.getMonth() + 1 === person.month
         };
-    }).sort((a, b) => {
-        if (a.msUntilBirthday !== b.msUntilBirthday) {
-            return a.msUntilBirthday - b.msUntilBirthday;
-        }
-        if (a.month !== b.month) {
-            return a.month - b.month;
-        }
-        return a.day - b.day;
-    });
+    }).sort((a, b) => a.msUntilBirthday - b.msUntilBirthday);
 
-    // 分离今日寿星和其他生日数据
+    // 分离今日生日和其他生日数据
     const todayBirthdays = processedData.filter(person => person.isToday);
     const otherBirthdays = processedData.filter(person => !person.isToday);
 
-    // 渲染今日寿星区域
+    // 渲染今日生日区域
     const todayListElement = document.getElementById('today-birthdays-list');
     if (todayBirthdays.length === 0) {
         todayListElement.innerHTML = `
@@ -208,8 +185,8 @@ function renderBirthdayLists(birthdayData) {
             <div class="birthday-card birthday-highlight animate-fadeIn">
                 <div class="flex justify-between items-start mb-2">
                     <h3 class="font-bold text-lg text-gray-800">${person.name}</h3>
-                    <span class="type-tag ${person.type === 'cv' ? 'bg-blue-100 text-blue-800' : 'bg-purple-100 text-purple-800'}">
-                        ${person.type === 'cv' ? '声优' : '角色'}
+                    <span class="type-tag">
+                        ${person.type}
                     </span>
                 </div>
                 <div class="flex items-center justify-between mb-3">
@@ -236,8 +213,8 @@ function renderBirthdayLists(birthdayData) {
             <div class="birthday-card" style="transition-delay: ${index * 0.05}s">
                 <div class="flex justify-between items-start mb-2">
                     <h3 class="font-bold text-lg text-gray-800">${person.name}</h3>
-                    <span class="type-tag ${person.type === 'cv' ? 'bg-blue-100 text-blue-800' : 'bg-purple-100 text-purple-800'}">
-                        ${person.type === 'cv' ? '声优' : '角色'}
+                    <span class="type-tag bg-blue-100 text-blue-800">
+                        ${person.type}
                     </span>
                 </div>
                 <div class="flex items-center justify-between">
