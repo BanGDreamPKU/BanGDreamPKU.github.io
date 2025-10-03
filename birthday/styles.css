@@ -6,217 +6,57 @@
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
-/* 自定义工具类 */
-.content-auto {
-    content-visibility: auto;
+/* 页面背景与最小高度 */
+body {
+    background-color: #f4f4f9;
+    min-height: 100vh;
 }
 
-/* 颜色变量定义 */
-:root {
-    --color-primary: #3b82f6;
-    --color-secondary: #f97316;
-    --color-accent: #8b5cf6;
-    --color-neutral: #f3f4f6;
-    --color-birthday-highlight: #fef3c7;
-    --color-birthday-border: #f59e0b;
-    --color-gray-50: #f9fafb;
-    --color-gray-100: #f3f4f6;
-    --color-gray-200: #e5e7eb;
-    --color-gray-500: #6b7280;
-    --color-gray-600: #4b5563;
-    --color-gray-800: #1f2937;
-    --color-white: #ffffff;
-    --color-blue-100: #dbeafe;
-    --color-blue-800: #1e40af;
-    --color-purple-100: #f3e8ff;
-    --color-purple-800: #5b21b6;
-    --color-yellow-200: #fef08a;
-    --color-yellow-600: #ca8a04;
-    --color-yellow-700: #b45309;
-}
-
-/* 布局基础样式 */
-.container {
+/* 主容器布局 */
+#main-container {
     width: 100%;
-    margin-right: auto;
-    margin-left: auto;
+    margin: auto;
     padding-top: 80px;
     max-width: 64rem;
 }
 
-.grid {
-    display: grid;
-    gap: 1rem;
-}
-
-.grid-cols-1 {
-    grid-template-columns: repeat(1, minmax(0, 1fr));
-}
-
-.gap-4 {
-    gap: 1rem;
-}
-
-/* 文本样式 */
-.text-sm {
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-}
-
-.text-lg {
-    font-size: 1.125rem;
-    line-height: 1.75rem;
-}
-
-.text-xl {
-    font-size: 1.25rem;
-    line-height: 1.75rem;
-}
-
-.text-2xl {
-    font-size: 1.5rem;
-    line-height: 2rem;
-}
-
-.text-center {
-    text-align: center;
-}
-
-.text-secondary {
-    color: var(--color-secondary);
-}
-
-.text-accent {
-    color: var(--color-accent);
-}
-
-.text-gray-50 {
-    color: var(--color-gray-50);
-}
-
-.text-gray-500 {
-    color: var(--color-gray-500);
-}
-
-.text-gray-800 {
-    color: var(--color-gray-800);
-}
-
-.text-yellow-600 {
-    color: var(--color-yellow-600);
-}
-
-.bg-gray-50 {
-    background-color: var(--color-gray-50);
-}
-
-.bg-blue-100 {
-    background-color: var(--color-blue-100);
-}
-
-.bg-purple-100 {
-    background-color: var(--color-purple-100);
-}
-
-.border-birthday-border {
-    border-color: var(--color-birthday-border);
-}
-
-.border-yellow-200 {
-    border-color: var(--color-yellow-200);
-}
-
-.border-gray-200 {
-    border-color: var(--color-gray-200);
-}
-
-/* 圆角类 */
-.rounded-lg {
-    border-radius: 0.5rem;
-}
-
-/* 内边距类 */
-.p-4 {
-    padding: 1rem;
-}
-
-.px-2 {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-}
-
-.px-3 {
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
-}
-
-.py-1 {
-    padding-top: 0.25rem;
-    padding-bottom: 0.25rem;
-}
-
-.py-3 {
-    padding-top: 0.75rem;
-    padding-bottom: 0.75rem;
-}
-
-.mb-3 {
-    margin-bottom: 0.75rem;
-}
-
-.mb-6 {
-    margin-bottom: 1.5rem;
-}
-
-.mb-10 {
+/* 今日生日与所有生日区域间距 */
+#today-birthdays {
     margin-bottom: 2.5rem;
 }
 
-.mt-1 {
-    margin-top: 0.25rem;
+/* 列表网格布局 */
+#today-birthdays-list,
+#all-birthdays-list {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 1rem;
 }
 
-/* 弹性布局类 */
-.flex {
-    display: flex;
-}
-
-.items-center {
-    align-items: center;
-}
-
-.items-start {
-    align-items: flex-start;
-}
-
-.justify-between {
-    justify-content: space-between;
-}
-
-.justify-center {
-    justify-content: center;
-}
-
-.gap-2 {
-    gap: 0.5rem;
+/* 网格全列跨度 */
+.today-empty-card,
+.all-empty-card,
+.loading-card,
+.error-card {
+    grid-column: 1 / -1;
 }
 
 /* 卡片组件样式 */
 .birthday-card {
-    background-color: var(--color-white);
+    background-color: white;
     border-radius: 0.5rem;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px 0 rgba(0,0,0,0.06);
     padding: 1rem;
     transition: all 0.3s ease;
+    font-size: 1rem;
+    color: #1f2937; /* darkslategray 但更深，保留原色 */
 }
-
 .birthday-card:hover {
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
 }
-
 .birthday-highlight {
-    background-color: var(--color-birthday-highlight);
-    border: 2px solid var(--color-birthday-border);
+    background-color: lightyellow;
+    border: 2px solid gold;
     position: relative;
 }
 
@@ -226,7 +66,7 @@
     line-height: 2rem;
     font-weight: 700;
     margin-bottom: 1.5rem;
-    color: var(--color-gray-800);
+    color: #1f2937;
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -235,12 +75,9 @@
 /* 徽章样式 */
 .date-badge {
     background-color: rgba(59, 130, 246, 0.1);
-    color: var(--color-primary);
+    color: royalblue;
     font-weight: 600;
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
-    padding-top: 0.25rem;
-    padding-bottom: 0.25rem;
+    padding: 0.25rem 0.75rem;
     border-radius: 9999px;
     font-size: 0.875rem;
 }
@@ -249,11 +86,48 @@
 .type-tag {
     font-size: 0.75rem;
     font-weight: 500;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-    padding-top: 0.125rem;
-    padding-bottom: 0.125rem;
+    padding: 0.125rem 0.5rem;
     border-radius: 0.25rem;
+    background-color: aliceblue;
+    color: navy;
+}
+
+/* 今日生日提示卡片 */
+.today-empty-card {
+    background-color: #f4f4f9;
+    color: dimgray;
+    border-radius: 0.5rem;
+    text-align: center;
+    padding: 2rem 0;
+    font-size: 1rem;
+}
+
+/* 所有生日空卡片 */
+.all-empty-card {
+    background-color: #f4f4f9;
+    color: dimgray;
+    border-radius: 0.5rem;
+    text-align: center;
+    padding: 2rem 0;
+    font-size: 1rem;
+}
+
+/* 加载提示卡片 */
+.loading-card {
+    color: dimgray;
+    text-align: center;
+    padding: 2rem 0;
+    font-size: 1rem;
+}
+
+/* 错误提示卡片 */
+.error-card {
+    color: red;
+    background-color: mistyrose;
+    border-radius: 0.5rem;
+    text-align: center;
+    padding: 2rem 0;
+    font-size: 1rem;
 }
 
 /* 图标样式（模拟Font Awesome基础样式） */
@@ -266,84 +140,55 @@
     text-transform: none;
     -webkit-font-smoothing: antialiased;
 }
-
-/* 基础图标定义（使用Unicode字符模拟） */
-.icon-calendar-o::before {
-    content: "📅";
-}
-
-.icon-clock-o::before {
-    content: "⏰";
-}
-
-.icon-cake::before {
-    content: "🎂";
-}
-
-.icon-list-alt::before {
-    content: "📋";
-}
-
-.icon-spinner::before {
-    content: "🔄";
-}
-
-.icon-spin {
-    animation: spin 1s linear infinite;
-}
-
-.icon-star::before {
-    content: "⭐";
-}
-
-/* 动画定义 */
-@keyframes spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-/* 响应式样式 */
-@media (min-width: 768px) {
-    .md\:grid-cols-2 {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-    .md\:text-3xl {
-        font-size: 1.875rem;
-        line-height: 2.25rem;
-    }
-    .md\:text-4xl {
-        font-size: 2.25rem;
-        line-height: 2.5rem;
-    }
-}
-
-@media (min-width: 1024px) {
-    .lg\:grid-cols-3 {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-}
+.icon-calendar-o::before { content: "📅"; }
+.icon-clock-o::before { content: "⏰"; }
+.icon-cake::before { content: "🎂"; }
+.icon-list-alt::before { content: "📋"; }
+.icon-spinner::before { content: "🔄"; }
+.icon-spin { animation: spin 1s linear infinite; }
+.icon-star::before { content: "⭐"; }
 
 /* 动画效果 */
 .animate-fadeIn {
     animation: fadeIn 0.5s ease-in-out;
 }
-
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* 响应式样式 */
+@media (min-width: 768px) {
+    #today-birthdays-list,
+    #all-birthdays-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+}
+@media (min-width: 1024px) {
+    #today-birthdays-list,
+    #all-birthdays-list {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 }
 
-/* 列跨度样式 */
-.col-span-full {
-    grid-column: 1 / -1;
+/* 卡片内部flex布局 */
+.birthday-card .flex-row,
+.birthday-card .flex-row-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+.birthday-card .flex-row-between {
+    align-items: center;
+}
+
+/* 卡片内容flex布局 */
+.birthday-card .flex-content {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }

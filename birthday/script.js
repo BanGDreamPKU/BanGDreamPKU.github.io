@@ -129,16 +129,16 @@ async function loadBirthdayData() {
 function showErrorMsg(title, message) {
     const todayList = document.getElementById('today-birthdays-list');
     const allList = document.getElementById('all-birthdays-list');
-    
+
     const errorHtml = `
-        <div class="col-span-full text-center text-red-500 py-8 bg-red-50 rounded-lg">
-            <i class="icon-exclamation-circle text-2xl mb-3"></i>
-            <h3 class="font-bold text-lg mb-1">${title}</h3>
-            <p class="text-sm">${message}</p>
-            <p class="text-xs mt-2">请检查birthday.txt文件是否存在且格式正确</p>
+        <div class="error-card">
+            <i class="icon-exclamation-circle"></i>
+            <h3>${title}</h3>
+            <p>${message}</p>
+            <p>请检查birthday.txt文件是否存在且格式正确</p>
         </div>
     `;
-    
+
     todayList.innerHTML = errorHtml;
     allList.innerHTML = '';
 }
@@ -174,23 +174,23 @@ function renderBirthdayLists(birthdayData) {
     const todayListElement = document.getElementById('today-birthdays-list');
     if (todayBirthdays.length === 0) {
         todayListElement.innerHTML = `
-            <div class="col-span-full text-center text-gray-500 py-8 bg-gray-50 rounded-lg">
-                <i class="icon-calendar text-xl mb-2"></i>
+            <div class="today-empty-card">
+                <i class="icon-calendar"></i>
                 <p>今天没有人过生日，期待后续的生日祝福吧！</p>
-                <p class="text-sm mt-1">下次生日将在${otherBirthdays[0] ? formatDistanceToBirthday(otherBirthdays[0].msUntilBirthday) : '未知'}</p>
+                <p>下次生日将在${otherBirthdays[0] ? formatDistanceToBirthday(otherBirthdays[0].msUntilBirthday) : '未知'}</p>
             </div>
         `;
     } else {
         todayListElement.innerHTML = todayBirthdays.map(person => `
             <div class="birthday-card birthday-highlight animate-fadeIn">
-                <div class="flex justify-between items-start mb-2">
-                    <h3 class="font-bold text-lg text-gray-800">${person.name}</h3>
-                    <span class="type-tag">
+                <div class="flex-row">
+                    <h3>${person.name}</h3>
+                    <span class="type-tag" style="color: navy;">
                         ${person.type}
                     </span>
                 </div>
-                <div class="flex items-center justify-between mb-3">
-                    <div class="flex items-center gap-2 text-yellow-600">
+                <div class="flex-row-between">
+                    <div class="flex-content" style="color: goldenrod;">
                         <i class="icon-star"></i> 生日快乐！🎉
                     </div>
                     <span class="date-badge">${person.originalBirthday}</span>
@@ -203,22 +203,22 @@ function renderBirthdayLists(birthdayData) {
     const allListElement = document.getElementById('all-birthdays-list');
     if (otherBirthdays.length === 0) {
         allListElement.innerHTML = `
-            <div class="col-span-full text-center text-gray-500 py-8 bg-gray-50 rounded-lg">
-                <i class="icon-list-alt text-xl mb-2"></i>
+            <div class="all-empty-card">
+                <i class="icon-list-alt"></i>
                 <p>没有更多生日数据</p>
             </div>
         `;
     } else {
         allListElement.innerHTML = otherBirthdays.map((person, index) => `
             <div class="birthday-card" style="transition-delay: ${index * 0.05}s">
-                <div class="flex justify-between items-start mb-2">
-                    <h3 class="font-bold text-lg text-gray-800">${person.name}</h3>
-                    <span class="type-tag bg-blue-100 text-blue-800">
+                <div class="flex-row">
+                    <h3>${person.name}</h3>
+                    <span class="type-tag" style="color: navy;">
                         ${person.type}
                     </span>
                 </div>
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-2 text-gray-500">
+                <div class="flex-row-between">
+                    <div class="flex-content" style="color: dimgray;">
                         <i class="icon-clock-o"></i>
                         <span>${formatDistanceToBirthday(person.msUntilBirthday)}</span>
                     </div>
@@ -250,8 +250,8 @@ function renderBirthdayLists(birthdayData) {
 document.addEventListener('DOMContentLoaded', async () => {
     // 显示加载状态
     const loaderHtml = `
-        <div class="col-span-full text-center text-gray-500 py-8">
-            <i class="icon-spinner icon-spin text-2xl mb-3"></i>
+        <div class="loading-card">
+            <i class="icon-spinner icon-spin"></i>
             <p>正在加载数据...</p>
         </div>
     `;

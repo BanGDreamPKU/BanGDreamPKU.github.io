@@ -7,36 +7,36 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" type="image/png" href="https://bestdori.com/assets/cn/deco/pins_rip/deco_pins015003.png" />
 </head>
-<body class="bg-gray-50 min-h-screen">
+<body>
     <div id="top-bar-placeholder" chinese_pathname="/生日提醒"></div>
     <script src="/common/top-bar/load.js"></script>
 
-    <div class="container mx-auto px-4 py-8 max-w-5xl">
+    <div id="main-container">
         <!-- 今日生日区域 -->
-        <section class="mb-10" id="today-birthdays">
+        <section id="today-birthdays">
             <h2 class="section-title">
-                <i class="icon-cake text-secondary"></i>
+                <i class="icon-cake"></i>
                 今日邦邦生日
             </h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="today-birthdays-list">
+            <div id="today-birthdays-list">
                 <!-- 今日寿星将在这里动态加载 -->
-                <div class="col-span-full text-center text-gray-500 py-8">
-                    <i class="icon-spinner icon-spin text-2xl mb-3"></i>
+                <div class="today-empty-card loading-card">
+                    <i class="icon-spinner icon-spin"></i>
                     <p>正在加载今日生日数据...</p>
                 </div>
             </div>
         </section>
 
         <!-- 所有生日列表区域 -->
-        <section>
+        <section id="all-birthdays-section">
             <h2 class="section-title">
-                <i class="icon-list-alt text-accent"></i>
+                <i class="icon-list-alt"></i>
                 生日列表
             </h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="all-birthdays-list">
+            <div id="all-birthdays-list">
                 <!-- 所有生日数据将在这里动态加载 -->
-                <div class="col-span-full text-center text-gray-500 py-8">
-                    <i class="icon-spinner icon-spin text-2xl mb-3"></i>
+                <div class="all-empty-card loading-card">
+                    <i class="icon-spinner icon-spin"></i>
                     <p>正在加载生日数据...</p>
                 </div>
             </div>
