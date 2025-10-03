@@ -185,7 +185,7 @@ function renderBirthdayLists(birthdayData) {
             <div class="birthday-card birthday-highlight animate-fadeIn">
                 <div class="flex-row">
                     <h3>${person.name}</h3>
-                    <span class="type-tag" style="color: navy;">
+                    <span class="type-tag" style="background-color: ${getRandBgColor(person.type)};">
                         ${person.type}
                     </span>
                 </div>
@@ -213,7 +213,7 @@ function renderBirthdayLists(birthdayData) {
             <div class="birthday-card" style="transition-delay: ${index * 0.05}s">
                 <div class="flex-row">
                     <h3>${person.name}</h3>
-                    <span class="type-tag" style="color: navy;">
+                    <span class="type-tag" style="background-color: ${getRandBgColor(person.type)};">
                         ${person.type}
                     </span>
                 </div>
@@ -242,6 +242,18 @@ function renderBirthdayLists(birthdayData) {
             });
         }, 100);
     }
+}
+
+// 根据type字符串生成浅色背景色（HSL映射，色相分布广，饱和度低，亮度高）
+function getRandBgColor(type) {
+    let hash = 0;
+    for (let i = 0; i < type.length; i++) {
+        hash = (hash << 5) - hash + type.charCodeAt(i);
+        hash |= 0;
+    }
+    // 色相范围0-360，饱和度50%，亮度90%
+    const hue = Math.abs(hash) % 360;
+    return `hsl(${hue}, 50%, 90%)`;
 }
 
 /**
