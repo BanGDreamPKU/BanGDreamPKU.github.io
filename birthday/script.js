@@ -191,7 +191,7 @@ function renderBirthdayLists(birthdayData) {
                 </div>
                 <div class="flex-row-between">
                     <div class="flex-content" style="color: goldenrod;">
-                        <i class="icon-star"></i> 生日快乐！🎉
+                        🎉生日快乐！
                     </div>
                     <span class="date-badge">${person.originalBirthday}</span>
                 </div>

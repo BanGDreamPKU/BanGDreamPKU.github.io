@@ -146,7 +146,6 @@ body {
 .icon-list-alt::before { content: "📋"; }
 .icon-spinner::before { content: "🔄"; }
 .icon-spin { animation: spin 1s linear infinite; }
-.icon-star::before { content: "⭐"; }
 
 /* 动画效果 */
 .animate-fadeIn {
