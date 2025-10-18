@@ -182,7 +182,7 @@ function renderBirthdayLists(birthdayData) {
         `;
     } else {
         todayListElement.innerHTML = todayBirthdays.map(person => `
-            <div class="birthday-card birthday-highlight animate-fadeIn">
+            <div class="birthday-card birthday-highlight animate-fadeIn" data-name="${person.name}" style="cursor: pointer;">
                 <div class="flex-row">
                     <h3>${person.name}</h3>
                     <span class="type-tag" style="background-color: ${getRandBgColor(person.type)};">
@@ -210,7 +210,7 @@ function renderBirthdayLists(birthdayData) {
         `;
     } else {
         allListElement.innerHTML = otherBirthdays.map((person, index) => `
-            <div class="birthday-card" style="transition-delay: ${index * 0.05}s">
+            <div class="birthday-card" data-name="${person.name}" style="transition-delay: ${index * 0.05}s; cursor: pointer;">
                 <div class="flex-row">
                     <h3>${person.name}</h3>
                     <span class="type-tag" style="background-color: ${getRandBgColor(person.type)};">
@@ -242,6 +242,16 @@ function renderBirthdayLists(birthdayData) {
             });
         }, 100);
     }
+
+    const allCards = document.querySelectorAll('.birthday-card[data-name]');
+    allCards.forEach(card => {
+        card.addEventListener('click', (e) => {
+            const name = card.getAttribute('data-name');
+            if (!name) return;
+            const url = getMoegirlUrl(name);
+            window.open(url, '_blank');
+        });
+    });
 }
 
 // 根据type字符串生成浅色背景色（HSL映射，色相分布广，饱和度低，亮度高）
@@ -254,6 +264,12 @@ function getRandBgColor(type) {
     // 色相范围0-360，饱和度50%，亮度90%
     const hue = Math.abs(hash) % 360;
     return `hsl(${hue}, 50%, 90%)`;
+}
+
+// 新增：根据名字构造萌娘百科（中文）条目 URL
+function getMoegirlUrl(name) {
+    // 直接以条目名拼接，使用 encodeURIComponent 做基本编码
+    return `https://zh.moegirl.org.cn/${encodeURIComponent(name)}`;
 }
 
 /**
