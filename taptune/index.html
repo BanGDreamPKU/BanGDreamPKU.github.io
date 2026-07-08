@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/assets/symbol.png">
+    <title>组合数学 - TapTune 手元对轴配乐工具</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 80px 20px 40px;
+            /* 顶部留出导航栏空间 */
+        }
+
+        .content {
+            max-width: 860px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: #0073e6;
+        }
+
+        .subtitle {
+            font-size: 1.15rem;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        h2 {
+            font-size: 1.6rem;
+            margin: 2.2rem 0 1rem;
+            padding-left: 0.8rem;
+            border-left: 4px solid #0073e6;
+            line-height: 1.3;
+        }
+
+        p {
+            font-size: 1.08rem;
+            line-height: 1.8;
+            margin-bottom: 1.2rem;
+            color: #555;
+            text-align: justify;
+        }
+
+        .card {
+            background-color: #fff;
+            padding: 24px 28px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.8rem;
+        }
+
+        ol.steps {
+            font-size: 1.05rem;
+            line-height: 1.9;
+            color: #555;
+            padding-left: 1.4rem;
+        }
+
+        ol.steps li {
+            margin-bottom: 0.4rem;
+        }
+
+        .flow {
+            font-size: 1.02rem;
+            line-height: 1.7;
+            color: #444;
+            background: #eef4fb;
+            border-radius: 8px;
+            padding: 14px 18px;
+            margin-bottom: 1.2rem;
+        }
+
+        code {
+            background: #f0f0f5;
+            border-radius: 4px;
+            padding: 2px 6px;
+            font-size: 0.95em;
+            color: #c7254e;
+        }
+
+        .download-wrap {
+            text-align: center;
+            padding: 8px 0 4px;
+        }
+
+        .btn-download {
+            display: inline-block;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #fff;
+            background: #0073e6;
+            padding: 14px 40px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: background 0.2s ease;
+        }
+
+        .btn-download:hover {
+            background: #005bb5;
+        }
+
+        .btn-download.disabled {
+            background: #b8c2cc;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .download-note {
+            font-size: 0.95rem;
+            color: #999;
+            margin-top: 0.9rem;
+        }
+
+        .repo-link {
+            display: inline-block;
+            margin-top: 0.4rem;
+            font-size: 1rem;
+            color: #0073e6;
+            text-decoration: none;
+        }
+
+        .repo-link:hover {
+            text-decoration: underline;
+        }
+
+        ul.notes {
+            font-size: 1.02rem;
+            line-height: 1.8;
+            color: #555;
+        }
+
+        .container {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 1s ease-out;
+        }
+
+        .container.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 70px 12px 30px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .card {
+                padding: 18px 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="top-bar-placeholder" chinese_pathname="TapTune"></div>
+    <script src="/common/top-bar/load.js"></script>
+
+    <div class="content container">
+        <h1>TapTune</h1>
+        <p class="subtitle">音游「手元」对轴配乐工具 —— 把只有敲击音的手元录像，自动配上对齐到轴的原曲。</p>
+
+        <div class="card">
+            <p>录手元时游戏内音乐往往是静音的，只留下清脆的敲击音效。TapTune 会自动<strong>认出这是哪首歌</strong>、拉取谱面与原曲，用敲击音与谱面<strong>对轴求出偏移</strong>，再把原曲精确贴回、与（可调音量的）敲击音混合，导出成片。</p>
+            <p>支持多款音游，目前内置三个完整后端：<strong>BanG Dream!</strong>（Bestdori，含社区自制谱）、<strong>Project Sekai</strong>（sekai.best）、<strong>World Dai Star</strong>。</p>
+        </div>
+
+        <h2>下载</h2>
+        <div class="card">
+            <div class="download-wrap">
+                <a class="btn-download disabled" id="download-btn" href="#" aria-disabled="true">Windows 版（暂未开放）</a>
+                <p class="download-note">下载暂未开放，仓库转为公开后即可下载。<br>解压即用，已内置 ffmpeg，无需额外安装。</p>
+                <a class="repo-link" id="repo-link" href="#">GitHub 仓库（即将公开）</a>
+            </div>
+        </div>
+
+        <h2>怎么用</h2>
+        <div class="card">
+            <ol class="steps">
+                <li>录一段手元：游戏内音乐静音，只保留敲击音效。</li>
+                <li>下载解压后运行 <code>taptune.exe</code>，在打开的界面里选择这段视频。</li>
+                <li>等待自动认歌、对轴、配乐，导出成片即可。</li>
+            </ol>
+            <p style="margin-bottom:0;">也提供命令行：<code>taptune identify &lt;视频&gt;</code> 认歌、<code>taptune export &lt;视频&gt; &lt;成片.mp4&gt;</code> 一键出片。</p>
+        </div>
+
+        <h2>原理</h2>
+        <div class="card">
+            <div class="flow">认歌（画面 OCR） → 拉谱面 / 原曲 → 敲击音 × 谱面对轴求偏移 τ → 原曲精确贴回 + 混音 → 导出</div>
+            <p style="margin-bottom:0;">谱面的 note 时间是真值，录音只用来估一个全局偏移；原曲落位用<strong>视频与原曲的包络互相关</strong>，避免节拍网格的整拍歧义，也能识别倍速录像。</p>
+        </div>
+
+        <h2>已知限制</h2>
+        <div class="card">
+            <ul class="notes" style="margin-bottom:0;">
+                <li><strong>变速谱</strong>：无法用单一偏移对齐，会被标记低置信度，需人工核对。</li>
+                <li>敲击音被伴奏严重污染的录像：置信度下降，但通常仍能锁定偏移。</li>
+                <li>出片需联网，用于拉取谱面与原曲音源。</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            setTimeout(() => {
+                document.querySelector('.container').classList.add('active');
+            }, 100);
+        });
+    </script>
+</body>
+
+</html>
