@@ -28,7 +28,7 @@
     letter-spacing: 1px;
     padding-top: 1px;
     /* 面包屑容器：允许在窄屏换行，避免溢出 */
-    display: flex;
+    display: inline-flex;
     flex-wrap: wrap;
     align-items: center;
     max-width: 45vw;
