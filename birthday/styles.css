@@ -1,31 +1,48 @@
-/* 基础样式重置 */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-}
+/* 生日提醒 —— 演出手册风。基础 tokens/字体来自 /common/theme.css。
+   卡片类名与 script.js 保持一致，勿改类名。 */
 
-/* 页面背景与最小高度 */
-body {
-    background-color: #f4f4f9;
-    min-height: 100vh;
-}
-
-/* 主容器布局 */
 #main-container {
     width: 100%;
-    margin: auto;
-    padding-top: 80px;
-    max-width: 90%;
+    max-width: var(--wide);
+    margin: 0 auto;
+    padding: 96px 24px 40px;
 }
 
-/* 今日生日与所有生日区域间距 */
+.bd-head {
+    border-left: 6px solid var(--hhw);
+    padding-left: 1.4rem;
+    margin-bottom: 2.6rem;
+}
+
 #today-birthdays {
-    margin-bottom: 2.5rem;
+    margin-bottom: 3rem;
 }
 
-/* 列表网格布局 */
+/* 分节标题 + 乐队色脊条 */
+.section-title {
+    font-family: var(--font-body);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 1.3rem;
+    display: flex;
+    align-items: center;
+    gap: .7rem;
+}
+
+.section-title__spine {
+    width: 5px;
+    height: 26px;
+    border-radius: 3px;
+    background: var(--ppp);
+    display: inline-block;
+}
+
+#all-birthdays-section .section-title__spine {
+    background: var(--pp);
+}
+
+/* 卡片网格 */
 #today-birthdays-list,
 #all-birthdays-list {
     display: grid;
@@ -33,7 +50,6 @@ body {
     gap: 1rem;
 }
 
-/* 网格全列跨度 */
 .today-empty-card,
 .all-empty-card,
 .loading-card,
@@ -41,168 +57,182 @@ body {
     grid-column: 1 / -1;
 }
 
-/* 卡片组件样式 */
+/* 生日卡片 */
 .birthday-card {
-    background-color: white;
-    border-radius: 0.5rem;
-    box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px 0 rgba(0,0,0,0.06);
-    padding: 1rem;
-    transition: all 0.3s ease;
-    font-size: 1rem;
-    color: #1f2937; /* darkslategray 但更深，保留原色 */
+    background: var(--sheet);
+    border: 1px solid var(--hair);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 1.1rem 1.2rem;
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    color: var(--ink);
 }
+
 .birthday-card:hover {
-    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lift);
+    border-color: var(--hair-strong);
 }
+
+.birthday-card h3 {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 1.12rem;
+    margin: 0;
+    color: var(--ink);
+}
+
+/* 今日寿星高亮：琥珀描边 + 纸面高光 */
 .birthday-highlight {
-    background-color: lightyellow;
-    border: 2px solid gold;
+    background: linear-gradient(180deg, #fff9ec, var(--sheet));
+    border: 1px solid var(--hhw);
+    box-shadow: 0 0 0 3px rgba(245, 166, 35, .16), var(--shadow);
     position: relative;
 }
 
-/* 标题样式 */
-.section-title {
-    font-size: 1.5rem;
-    line-height: 2rem;
+/* 日期徽记 */
+.date-badge {
+    font-family: var(--font-mono);
+    background: var(--paper-2);
+    color: var(--pku);
     font-weight: 700;
-    margin-bottom: 1.5rem;
-    color: #1f2937;
+    padding: .2rem .7rem;
+    border-radius: 999px;
+    font-size: .82rem;
+    white-space: nowrap;
+}
+
+/* 类型标签（背景色由 JS 内联注入，此处只管排版） */
+.type-tag {
+    font-family: var(--font-mono);
+    font-size: .72rem;
+    font-weight: 700;
+    padding: .18rem .55rem;
+    border-radius: 4px;
+    color: var(--ink);
+    white-space: nowrap;
+}
+
+/* 空态 / 加载 / 错误 */
+.today-empty-card,
+.all-empty-card,
+.loading-card {
+    background: var(--sheet);
+    border: 1px dashed var(--hair-strong);
+    color: var(--ink-faint);
+    border-radius: var(--radius);
+    text-align: center;
+    padding: 2.2rem 1rem;
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+.today-empty-card p,
+.all-empty-card p,
+.loading-card p {
+    margin: .2rem 0;
+}
+
+.error-card {
+    color: var(--pku);
+    background: #fbeeee;
+    border: 1px solid #e6b8b9;
+    border-radius: var(--radius);
+    text-align: center;
+    padding: 2rem 1rem;
+    font-size: 1rem;
+}
+
+.error-card h3 {
+    margin: .4rem 0;
+}
+
+/* 卡片内部布局 */
+.birthday-card .flex-row,
+.birthday-card .flex-row-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: .6rem;
+}
+
+.birthday-card .flex-row {
+    margin-bottom: .7rem;
+}
+
+.birthday-card .flex-row-between {
+    align-items: center;
+}
+
+.birthday-card .flex-content {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: .4rem;
+    font-family: var(--font-mono);
+    font-size: .86rem;
 }
 
-/* 徽章样式 */
-.date-badge {
-    background-color: rgba(59, 130, 246, 0.1);
-    color: royalblue;
-    font-weight: 600;
-    padding: 0.25rem 0.75rem;
-    border-radius: 9999px;
-    font-size: 0.875rem;
-}
-
-/* 标签样式 */
-.type-tag {
-    font-size: 0.75rem;
-    font-weight: 500;
-    padding: 0.125rem 0.5rem;
-    border-radius: 0.25rem;
-    background-color: aliceblue;
-    color: black;
-}
-
-/* 今日生日提示卡片 */
-.today-empty-card {
-    background-color: #f4f4f9;
-    color: dimgray;
-    border-radius: 0.5rem;
-    text-align: center;
-    padding: 2rem 0;
-    font-size: 1rem;
-}
-
-/* 所有生日空卡片 */
-.all-empty-card {
-    background-color: #f4f4f9;
-    color: dimgray;
-    border-radius: 0.5rem;
-    text-align: center;
-    padding: 2rem 0;
-    font-size: 1rem;
-}
-
-/* 加载提示卡片 */
-.loading-card {
-    color: dimgray;
-    text-align: center;
-    padding: 2rem 0;
-    font-size: 1rem;
-}
-
-/* 错误提示卡片 */
-.error-card {
-    color: red;
-    background-color: mistyrose;
-    border-radius: 0.5rem;
-    text-align: center;
-    padding: 2rem 0;
-    font-size: 1rem;
-}
-
-/* 图标样式（模拟Font Awesome基础样式） */
+/* 图标（保留 JS 注入的 emoji 图标） */
 [class^="icon-"] {
     display: inline-block;
     font-style: normal;
-    font-weight: normal;
     line-height: 1;
-    font-family: "IconFont";
-    text-transform: none;
-    -webkit-font-smoothing: antialiased;
 }
+
 .icon-calendar-o::before { content: "📅"; }
-.icon-clock-o::before { content: "⏰"; }
+.icon-calendar::before { content: "📅"; }
+.icon-clock-o::before { content: "⏳"; }
 .icon-cake::before { content: "🎂"; }
-.icon-list-alt::before { content: "📋"; }
+.icon-list-alt::before { content: "🎵"; }
 .icon-spinner::before { content: "🔄"; }
+.icon-exclamation-circle::before { content: "⚠️"; }
 .icon-spin { animation: spin 1s linear infinite; }
 
-/* 动画效果 */
 .animate-fadeIn {
-    animation: fadeIn 0.5s ease-in-out;
+    animation: fadeIn .5s ease-in-out;
 }
+
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
 }
+
 @keyframes spin {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
 }
 
-/* 响应式样式 */
-@media (min-width: 512px) {
+/* 响应式网格 */
+@media (min-width: 560px) {
     #today-birthdays-list,
     #all-birthdays-list {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
-@media (min-width: 768px) {
+
+@media (min-width: 820px) {
     #today-birthdays-list,
     #all-birthdays-list {
         grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1080px) {
     #today-birthdays-list,
     #all-birthdays-list {
         grid-template-columns: repeat(4, minmax(0, 1fr));
     }
-    
 }
 
-@media (min-width: 1280px) {
-    #today-birthdays-list,
-    #all-birthdays-list {
-        grid-template-columns: repeat(5, minmax(0, 1fr));
+@media (max-width: 640px) {
+    #main-container {
+        padding: 72px 18px 32px;
     }
 }
 
-/* 卡片内部flex布局 */
-.birthday-card .flex-row,
-.birthday-card .flex-row-between {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-}
-.birthday-card .flex-row-between {
-    align-items: center;
-}
-
-/* 卡片内容flex布局 */
-.birthday-card .flex-content {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+@media (prefers-reduced-motion: reduce) {
+    .icon-spin,
+    .animate-fadeIn {
+        animation: none !important;
+    }
 }

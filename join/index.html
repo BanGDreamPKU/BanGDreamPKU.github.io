@@ -1,83 +1,146 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>组合数学 - 北京大学BanGDream!玩家微信群</title>
+    <link rel="icon" href="/assets/symbol.png">
+    <title>组合数学 · 加群</title>
+    <link rel="stylesheet" href="/common/theme.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            color: #333;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            flex-direction: column;
-        }
-        .container {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            max-width: 400px;
-        }
-        h1 {
-            font-size: 24px;
-            margin-bottom: 10px;
-            color: #0073e6;
-        }
-        p {
-            font-size: 16px;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-        .qrcode {
-            width: 300px;
+        .join {
+            max-width: 34rem;
             margin: 0 auto;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            overflow: hidden;
         }
-        .qrcode img {
+
+        .join-head {
+            border-left: 6px solid var(--ros);
+            padding-left: 1.4rem;
+            margin-bottom: 2rem;
+        }
+
+        .qr-sheet {
+            text-align: center;
+        }
+
+        .qr-frame {
+            width: 260px;
+            max-width: 78vw;
+            aspect-ratio: 1 / 1;
+            margin: .4rem auto 1.2rem;
+            border: 1px solid var(--hair);
+            border-radius: var(--radius);
+            background: var(--paper);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .qr-frame img {
             width: 100%;
             height: 100%;
+            object-fit: contain;
+            display: block;
         }
+
+        .qr-caption {
+            font-family: var(--font-mono);
+            font-size: .8rem;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: var(--ink-faint);
+            margin: 0 0 .6rem;
+        }
+
         .loading {
-            color: #666;
-            font-style: italic;
+            color: var(--ink-faint);
+            font-family: var(--font-mono);
+            font-size: .9rem;
         }
+
         .error {
-            color: #d32f2f;
-            font-weight: bold;
+            color: var(--pku);
+            font-weight: 600;
+            line-height: 1.7;
+            padding: 0 8px;
+        }
+
+        /* 入群两步：编号步骤 */
+        .join-steps {
+            list-style: none;
+            counter-reset: js;
+            padding: 0;
+            margin: 1.6rem 0 0;
+        }
+
+        .join-steps li {
+            counter-increment: js;
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 14px;
+            padding: 12px 0;
+            border-top: 1px dashed var(--hair);
+            color: var(--ink-soft);
+            line-height: 1.7;
+        }
+
+        .join-steps li:first-child {
+            border-top: 0;
+        }
+
+        .join-steps li::before {
+            content: counter(js, decimal-leading-zero);
+            font-family: var(--font-mono);
+            font-weight: 700;
+            font-size: .82rem;
+            color: var(--ros);
+            padding-top: .2rem;
         }
     </style>
 </head>
+
 <body>
-    <div class="container">
-        <h1>组合数学 - 北京大学BanGDream!国服玩家群</h1>
-        <p>欢迎加入"组合数学"！这是一个由北京大学BanGDream!爱好者组成的兴趣社群。虽然始于国服，我们也欢迎日服玩家，甚至是不玩游戏，只想讨论剧情、二创和企划新闻的新群友。只要不是完全不知道邦邦就行！</p>
-        <div class="qrcode">
-            <div id="qr-container">
-                <p class="loading">正在加载二维码...</p>
+    <div id="top-bar-placeholder" chinese_pathname="/加群"></div>
+    <script src="/common/top-bar/load.js"></script>
+    <script src="/common/card-bg.js"></script>
+
+    <div class="wrap wrap--read">
+        <div class="join">
+            <header class="join-head">
+                <p class="eyebrow" style="margin-bottom:.5rem;">加入组合数学</p>
+                <h1 class="page-title">➕ 我要加群<span class="en">Join the Circle</span></h1>
+                <p class="lede">这是一个由北京大学 BanG Dream! 爱好者组成的兴趣社群。始于国服，也欢迎日服玩家，甚至只想聊剧情、二创和企划新闻的朋友——只要不是完全不知道邦邦就行。</p>
+            </header>
+
+            <div class="sheet qr-sheet">
+                <p class="qr-caption">扫码进入入口群</p>
+                <div class="qr-frame">
+                    <div id="qr-container">
+                        <p class="loading">正在加载二维码…</p>
+                    </div>
+                </div>
+                <ol class="join-steps" style="text-align:left;">
+                    <li><span>扫码加入<strong>入口群</strong>。</span></li>
+                    <li><span>在入口群内添加好友，由好友邀请进入正式群（受微信群人数限制所致）。</span></li>
+                </ol>
             </div>
         </div>
-        <p>由于微信群人数限制，需要先扫码加入入口群，在入口群内添加好友后，由好友邀请入群</p>
     </div>
 
+    <footer class="site-footer">
+        <div class="foot-inner">
+            <span>组合数学 · 北京大学 BanG Dream! 玩家群</span>
+            <span class="foot-mono">C(n, k)</span>
+        </div>
+    </footer>
+
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Get token from URL search parameters
+        document.addEventListener('DOMContentLoaded', function () {
             const urlParams = new URLSearchParams(window.location.search);
             const token = urlParams.get('token');
-
-            // Construct the QR code URL with the token
             const qrCodeUrl = `https://qr.leo-h.top/image${token ? '?token=' + encodeURIComponent(token) : ''}`;
-            
-            // Fetch the QR code data
+
             fetch(qrCodeUrl)
                 .then(response => {
                     if (!response.ok) {
@@ -88,19 +151,18 @@
                 .then(qrCodeData => {
                     const qrContainer = document.getElementById('qr-container');
                     if (qrCodeData.startsWith('http') || qrCodeData.startsWith('data:image')) {
-                        // If it's a URL or data URI
                         qrContainer.innerHTML = `<img src="${qrCodeData}" alt="入群二维码">`;
                     } else {
-                        // Handle other cases if needed
-                        qrContainer.innerHTML = `<p class="error">无效的二维码数据</p>`;
+                        qrContainer.innerHTML = `<p class="error">二维码数据无效，请稍后重试</p>`;
                     }
                 })
                 .catch(error => {
                     console.error('Error fetching QR code:', error);
-                    document.getElementById('qr-container').innerHTML = 
-                        `<p class="error">加载失败, 请使用校园网, 或在树洞5542735获取校外访问链接</p>`;
+                    document.getElementById('qr-container').innerHTML =
+                        `<p class="error">加载失败，请使用校园网，或在树洞 5542735 获取校外访问链接。</p>`;
                 });
         });
     </script>
 </body>
+
 </html>

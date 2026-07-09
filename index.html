@@ -5,90 +5,366 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/assets/symbol.png">
-    <title>组合数学 - 北京大学BanGDream!玩家微信群</title>
+    <title>组合数学 · 北京大学 BanG Dream! 玩家群</title>
+    <link rel="stylesheet" href="/common/theme.css">
     <style>
+        html,
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            color: #333;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            height: 100%;
+        }
+
+        /* ===== 两屏牌组：滚轮吸附切换 ===== */
+        .deck {
             height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+        }
+
+        .deck::-webkit-scrollbar {
+            width: 0;
+            height: 0;
+        }
+
+        .panel {
+            position: relative;
+            height: 100vh;
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+        }
+
+        /* ===== 第一屏：演出手册封面 ===== */
+        .cover {
+            display: flex;
+            align-items: flex-end;
+            overflow: hidden;
+        }
+
+        .cover__photo {
+            position: absolute;
+            inset: 0;
+            background: url("/assets/hero-bg.jpg") center 32% / cover no-repeat;
+            z-index: 0;
+        }
+
+        /* 墨色渐变压底，保证白字可读；顶部留一点北大红呼应品牌 */
+        .cover__photo::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(180deg,
+                    rgba(109, 5, 7, .34) 0%,
+                    rgba(20, 18, 14, .05) 26%,
+                    rgba(20, 18, 14, .5) 68%,
+                    rgba(20, 18, 14, .88) 100%);
+        }
+
+        .cover__inner {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: var(--wide);
+            margin: 0 auto;
+            padding: 0 24px 88px;
+            color: #fbf9f4;
+        }
+
+        .cover .eyebrow {
+            color: rgba(251, 249, 244, .82);
+        }
+
+        .cover .eyebrow::before {
+            background: #fbf9f4;
+        }
+
+        .cover__title {
+            font-family: var(--font-body);
+            font-weight: 700;
+            font-size: clamp(3.2rem, 9vw, 6.2rem);
+            line-height: .98;
+            letter-spacing: -.02em;
+            margin: 0;
+            text-shadow: 0 2px 30px rgba(0, 0, 0, .35);
+        }
+
+        .cover__en {
+            display: block;
+            font-family: var(--font-mono);
+            font-weight: 400;
+            font-size: clamp(.9rem, 2.4vw, 1.2rem);
+            letter-spacing: .34em;
+            text-transform: uppercase;
+            color: rgba(251, 249, 244, .9);
+            margin-top: 1.1rem;
+        }
+
+        .cover__lede {
+            max-width: 44rem;
+            font-size: clamp(1.15rem, 2.6vw, 1.42rem);
+            line-height: 1.75;
+            color: rgba(251, 249, 244, .95);
+            margin: 1.5rem 0 0;
+            text-shadow: 0 1px 12px rgba(0, 0, 0, .4);
+        }
+
+        /* 顶部五色脊条（横置于封面左上） */
+        .cover .spine5 {
+            width: 74px;
+            height: 7px;
+            margin-bottom: 1.6rem;
+        }
+
+        /* 往下看提示 */
+        .scroll-cue {
+            position: absolute;
+            left: 50%;
+            bottom: 26px;
+            transform: translateX(-50%);
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            color: rgba(251, 249, 244, .82);
+            font-family: var(--font-mono);
+            font-size: .72rem;
+            letter-spacing: .22em;
+            text-transform: uppercase;
+            background: none;
+            border: 0;
+            cursor: pointer;
+            transition: opacity .5s ease, color .2s ease;
+        }
+
+        .scroll-cue:hover {
+            color: #fbf9f4;
+        }
+
+        .scroll-cue__arrow {
+            font-size: 1.3rem;
+            line-height: 1;
+            animation: cue-bounce 1.8s ease-in-out infinite;
+        }
+
+        .deck.at-list .scroll-cue {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        @keyframes cue-bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(6px);
+            }
+        }
+
+        /* ===== 第二屏：曲目单 ===== */
+        .panel--list {
+            display: flex;
             flex-direction: column;
         }
 
-        .container {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            max-width: 400px;
-
-            opacity: 0;
-            /* 初始完全透明 */
-            visibility: hidden;
-            /* 初始隐藏元素 */
-            transform: translateY(20px);
-            /* 初始下移20像素 */
-            transition: all 1s ease-out;
-            /* 过渡效果持续1秒 */
+        .tracklist {
+            flex: 1;
+            width: 100%;
+            max-width: var(--wide);
+            margin: 0 auto;
+            padding: 84px 24px 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
-        .container.active {
-            opacity: 1;
-            /* 最终完全不透明 */
-            visibility: visible;
-            /* 显示元素 */
-            transform: translateY(0);
-            /* 恢复原始位置 */
+        .tracklist__head {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 1.2rem;
+            flex-wrap: wrap;
         }
 
-        h1 {
-            font-size: 24px;
-            margin-bottom: 10px;
-            color: #0073e6;
+        .tracklist__head h2 {
+            font-family: var(--font-body);
+            font-weight: 700;
+            font-size: 1.75rem;
+            margin: 0;
+            color: var(--ink);
         }
 
-        p {
-            font-size: 16px;
-            line-height: 1.6;
-            margin-bottom: 20px;
+        .track {
+            display: grid;
+            grid-template-columns: auto 44px 1fr auto;
+            align-items: center;
+            gap: 20px;
+            padding: 20px 20px;
+            border-top: 1px solid var(--hair);
+            text-decoration: none;
+            color: inherit;
+            transition: background .2s ease, padding-left .2s ease;
         }
 
-        /* 新增移动端专用样式 */
-        @media (max-width: 480px) {
-            /* 内容适配 */
-            .container {
-                padding: 10px;
-                margin-top: 50px;
-                max-width: 360px;
+        .track:last-of-type {
+            border-bottom: 1px solid var(--hair);
+        }
+
+        .track:hover {
+            background: var(--sheet);
+            padding-left: 28px;
+        }
+
+        .track__no {
+            font-family: var(--font-mono);
+            font-weight: 700;
+            font-size: .82rem;
+            letter-spacing: .1em;
+            color: var(--ink-faint);
+        }
+
+        /* 每条一根乐队色竖脊 */
+        .track__spine {
+            width: 5px;
+            height: 40px;
+            border-radius: 3px;
+            justify-self: center;
+        }
+
+        .track:nth-of-type(1) .track__spine {
+            background: var(--ppp);
+        }
+
+        .track:nth-of-type(2) .track__spine {
+            background: var(--pp);
+        }
+
+        .track:nth-of-type(3) .track__spine {
+            background: var(--hhw);
+        }
+
+        .track:nth-of-type(4) .track__spine {
+            background: var(--ros);
+        }
+
+        .track__body {
+            min-width: 0;
+        }
+
+        .track__title {
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 1.42rem;
+            color: var(--ink);
+            line-height: 1.3;
+        }
+
+        .track__desc {
+            font-size: 1.05rem;
+            color: var(--ink-faint);
+            margin-top: .3rem;
+        }
+
+        .track__go {
+            font-family: var(--font-mono);
+            font-size: 1.3rem;
+            color: var(--hair-strong);
+            transition: transform .2s ease, color .2s ease;
+        }
+
+        .track:hover .track__go {
+            color: var(--pku);
+            transform: translateX(4px);
+        }
+
+        /* 曲目单屏内的页脚 */
+        .panel--list .site-footer {
+            padding: 0 24px 24px;
+        }
+
+        /* 回到封面 */
+        .back-to-top {
+            display: inline-flex;
+            align-items: center;
+            gap: .5em;
+            font-family: var(--font-mono);
+            font-size: .72rem;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+            color: var(--ink-faint);
+            background: none;
+            border: 0;
+            cursor: pointer;
+            padding: 0;
+            transition: color .2s ease;
+        }
+
+        .back-to-top:hover {
+            color: var(--pku);
+        }
+
+        @media (max-width: 560px) {
+            .track {
+                grid-template-columns: auto 5px 1fr auto;
+                gap: 14px;
+                padding: 16px 8px;
             }
 
-            h1 {
-                font-size: 20px;
-                line-height: 1.3;
+            .track:hover {
+                padding-left: 12px;
             }
 
-            p {
-                font-size: 14px;
-                line-height: 1.6;
+            .track__spine {
+                height: 34px;
             }
 
-            img {
-                max-width: 100%;
-                /* 图片自适应 */
+            .track__title {
+                font-size: 1.08rem;
+            }
+
+            .track__desc {
+                font-size: .85rem;
+            }
+        }
+
+        /* 小屏：关掉吸附，恢复普通长页滚动 */
+        @media (max-width: 760px) {
+            .deck {
                 height: auto;
+                overflow-y: visible;
+                scroll-snap-type: none;
+            }
+
+            .panel {
+                height: auto;
+                min-height: 100vh;
+            }
+
+            .panel--list {
+                min-height: 0;
+            }
+
+            .tracklist {
+                justify-content: flex-start;
+            }
+
+            .scroll-cue {
+                display: none;
             }
         }
 
-        /* 防止横屏文字过小 */
-        @media (max-width: 480px) and (orientation: landscape) {
-            .container {
-                margin-top: 40px;
+        @media (prefers-reduced-motion: reduce) {
+            .deck {
+                scroll-behavior: auto;
+            }
+
+            .scroll-cue__arrow {
+                animation: none;
             }
         }
     </style>
@@ -98,17 +374,106 @@
     <div id="top-bar-placeholder" chinese_pathname=""></div>
     <script src="/common/top-bar/load.js"></script>
 
-    <div class="container">
-        <img src="./assets/flag.png" width="400">
-        <h1>组合数学 - 北京大学BanGDream!国服玩家群</h1>
-        <p>欢迎加入“组合数学”！这是一个由北京大学BanGDream!爱好者组成的兴趣社群。虽然始于国服，我们也欢迎日服玩家，甚至是不玩游戏，只想讨论剧情、二创和企划新闻的新群友。</p>
+    <div class="deck" id="deck">
+        <!-- 第一屏：封面 -->
+        <header class="panel cover">
+            <div class="cover__photo" role="img" aria-label="邦邦团子戴学位帽排坐在北大未名湖石凳上，背景是博雅塔"></div>
+            <div class="cover__inner">
+                <div class="spine5 reveal" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+                <p class="eyebrow reveal">北京大学 · BanG Dream! 玩家群</p>
+                <h1 class="cover__title reveal">组合数学<span class="cover__en">Combinatorics — a BanG Dream! circle at PKU</span></h1>
+                <p class="cover__lede reveal">始于国服，也欢迎日服玩家，以及只想聊剧情、二创和企划新闻的朋友。凑齐这支乐队，差你一个。</p>
+            </div>
+            <button class="scroll-cue" id="scroll-cue" type="button" aria-label="往下看本站曲目">
+                <span>往下看曲目</span>
+                <span class="scroll-cue__arrow" aria-hidden="true">↓</span>
+            </button>
+        </header>
+
+        <!-- 第二屏：曲目单 -->
+        <section class="panel panel--list">
+            <main class="tracklist">
+                <div class="tracklist__head">
+                    <h2>本站曲目</h2>
+                    <span class="track-no">PROGRAM / 04 TRACKS</span>
+                </div>
+
+                <a class="track" href="/garupaintro/">
+                    <span class="track__no">01</span>
+                    <span class="track__spine" aria-hidden="true"></span>
+                    <span class="track__body">
+                        <span class="track__title">力儿八概论</span>
+                        <span class="track__desc">抽卡、养成、打歌、冲榜——新人避坑指南</span>
+                    </span>
+                    <span class="track__go" aria-hidden="true">→</span>
+                </a>
+
+                <a class="track" href="/taptune/">
+                    <span class="track__no">02</span>
+                    <span class="track__spine" aria-hidden="true"></span>
+                    <span class="track__body">
+                        <span class="track__title">手元配乐 · TapTune</span>
+                        <span class="track__desc">给静音手元录像自动对轴贴回原曲</span>
+                    </span>
+                    <span class="track__go" aria-hidden="true">→</span>
+                </a>
+
+                <a class="track" href="/birthday/">
+                    <span class="track__no">03</span>
+                    <span class="track__spine" aria-hidden="true"></span>
+                    <span class="track__body">
+                        <span class="track__title">生日提醒</span>
+                        <span class="track__desc">角色与声优生日倒数，别错过每一个池子</span>
+                    </span>
+                    <span class="track__go" aria-hidden="true">→</span>
+                </a>
+
+                <a class="track" href="/join/">
+                    <span class="track__no">04</span>
+                    <span class="track__spine" aria-hidden="true"></span>
+                    <span class="track__body">
+                        <span class="track__title">我要加群</span>
+                        <span class="track__desc">扫码进入口群，好友邀请入正式群</span>
+                    </span>
+                    <span class="track__go" aria-hidden="true">→</span>
+                </a>
+            </main>
+
+            <footer class="site-footer">
+                <div class="foot-inner">
+                    <button class="back-to-top" id="back-to-top" type="button">↑ 回到封面</button>
+                    <span class="foot-mono">C(n, k) · since 国服</span>
+                </div>
+            </footer>
+        </section>
     </div>
+
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            // 页面加载完成后添加active类触发动画
-            setTimeout(() => {
-                document.querySelector('.container').classList.add('active');
-            }, 100); // 添加100ms延迟确保动画生效
+            const items = document.querySelectorAll('.cover .reveal');
+            items.forEach((el, i) => {
+                setTimeout(() => el.classList.add('in'), 120 + i * 130);
+            });
+
+            const deck = document.getElementById('deck');
+            const cue = document.getElementById('scroll-cue');
+            const backTop = document.getElementById('back-to-top');
+            const list = document.querySelector('.panel--list');
+
+            // 点提示箭头滚到曲目单，点“回到封面”滚回顶部
+            if (cue && list) {
+                cue.addEventListener('click', () => list.scrollIntoView({ behavior: 'smooth' }));
+            }
+            if (backTop && deck) {
+                backTop.addEventListener('click', () => deck.scrollTo({ top: 0, behavior: 'smooth' }));
+            }
+
+            // 滚到第二屏时淡出提示箭头
+            if (deck) {
+                deck.addEventListener('scroll', () => {
+                    deck.classList.toggle('at-list', deck.scrollTop > window.innerHeight * 0.4);
+                }, { passive: true });
+            }
         });
     </script>
 </body>

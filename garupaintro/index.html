@@ -5,156 +5,171 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/assets/symbol.png">
-    <title>组合数学 - 力儿八概论</title>
+    <title>组合数学 · 力儿八概论</title>
+    <link rel="stylesheet" href="/common/theme.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            color: #333;
-            /* margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
+        /* 概论目录：曲目单 */
+        .toc {
+            margin-top: 2.6rem;
+        }
+
+        .toc__item {
+            display: grid;
+            grid-template-columns: auto 5px 1fr auto;
             align-items: center;
-            height: 100vh;
-            flex-direction: column; */
-            margin: 0;
-            padding: 80px 20px 20px;
-            /* 顶部留出导航栏空间 */
+            gap: 20px;
+            padding: 20px 16px;
+            border-top: 1px solid var(--hair);
+            text-decoration: none;
+            color: inherit;
+            transition: background .2s ease, padding-left .2s ease;
         }
 
-        .content {
-            max-width: 1200px;
-            margin: 0 auto;
-            text-align: left;
+        .toc__item:last-child {
+            border-bottom: 1px solid var(--hair);
         }
 
-        .container {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            max-width: 400px;
-
-            opacity: 0;
-            /* 初始完全透明 */
-            visibility: hidden;
-            /* 初始隐藏元素 */
-            transform: translateY(20px);
-            /* 初始下移20像素 */
-            transition: all 1s ease-out;
-            /* 过渡效果持续1秒 */
+        .toc__item:hover {
+            background: var(--sheet);
+            padding-left: 24px;
         }
 
-        .container.active {
-            opacity: 1;
-            /* 最终完全不透明 */
-            visibility: visible;
-            /* 显示元素 */
-            transform: translateY(0);
-            /* 恢复原始位置 */
+        .toc__no {
+            font-family: var(--font-mono);
+            font-weight: 700;
+            font-size: .82rem;
+            color: var(--ink-faint);
+            letter-spacing: .08em;
         }
 
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-            border-bottom: 2px solid #ddd;
-            padding-bottom: 0.5rem;
+        .toc__spine {
+            width: 5px;
+            height: 34px;
+            border-radius: 3px;
+            justify-self: center;
         }
 
-        /* 二级标题样式 */
-        h2 {
-            font-size: 1.8rem;
-            margin: 2rem 0 1.2rem;
-            padding-left: 1rem;
-            border-left: 4px solid;
-            line-height: 1.3;
-            position: relative;
+        .toc__item:nth-child(1) .toc__spine {
+            background: var(--ppp);
         }
 
-        /* 三级标题样式 */
-        h3 {
-            font-size: 1.4rem;
-            color: #333;
-            margin: 1.5rem 0 1rem;
-            padding-bottom: 0.3rem;
-            border-bottom: 1px dashed #ddd;
+        .toc__item:nth-child(2) .toc__spine {
+            background: var(--ag);
         }
 
-        p {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            margin-bottom: 1.5rem;
-            color: #555;
-            text-align: justify;
+        .toc__item:nth-child(3) .toc__spine {
+            background: var(--hhw);
         }
 
-        /* 新增移动端专用样式 */
-        @media (max-width: 480px) {
-            /* 内容适配 */
-            .container {
-                padding: 10px;
-                margin-top: 50px;
-                max-width: 360px;
+        .toc__item:nth-child(4) .toc__spine {
+            background: var(--pp);
+        }
+
+        .toc__item:nth-child(5) .toc__spine {
+            background: var(--ros);
+        }
+
+        .toc__item:nth-child(6) .toc__spine {
+            background: var(--ppp);
+        }
+
+        .toc__title {
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 1.18rem;
+            color: var(--ink);
+        }
+
+        .toc__desc {
+            font-size: .92rem;
+            color: var(--ink-faint);
+            margin-top: .15rem;
+        }
+
+        .toc__go {
+            font-family: var(--font-mono);
+            font-size: 1.2rem;
+            color: var(--hair-strong);
+            transition: transform .2s ease, color .2s ease;
+        }
+
+        .toc__item:hover .toc__go {
+            color: var(--pku);
+            transform: translateX(4px);
+        }
+
+        @media (max-width: 560px) {
+            .toc__item {
+                gap: 13px;
+                padding: 16px 6px;
             }
 
-            h1 {
-                font-size: 20px;
-                line-height: 1.3;
-            }
-
-            p {
-                font-size: 14px;
-                line-height: 1.6;
-            }
-
-            img {
-                max-width: 100%;
-                /* 图片自适应 */
-                height: auto;
-            }
-        }
-
-        /* 防止横屏文字过小 */
-        @media (max-width: 480px) and (orientation: landscape) {
-            .container {
-                margin-top: 40px;
+            .toc__title {
+                font-size: 1.04rem;
             }
         }
     </style>
 </head>
 
 <body>
-
     <div id="top-bar-placeholder" chinese_pathname="/力儿八概论"></div>
     <script src="/common/top-bar/load.js"></script>
+    <script src="/common/card-bg.js"></script>
 
-    <!-- <div class="container">
-        <h1>组合数学 - 力儿八概论</h1>
-        <p>你先别急，还在维护！</p>
-    </div> -->
-    <div class="content">
-        <h1>力儿八概论</h1>
-        <p>作为一款运营多年的手游，《BanG Dream!》具有错综复杂的养成系统，迷惑性很强的各种代币与交换所，以及十分具有误导性的各类礼包。至于抽卡养成类游戏必备的各种机制不同的卡池就更不用提了。
-            为了避免入坑邦邦的新人可能犯下的亏本错误，我们正在编写《力儿八概论》，对一些常见选项的收益进行介绍。随缘更新。
-        </p>
-        <p style="font-size: 0.95rem; color: #888;">※ 本概论内容整理自 2025 年 3 月的攻略讨论。游戏机制大体沿用至今，但文中涉及的具体活动编号、日期、抽卡规划实例等均以撰写当时为准，请以游戏内实际情况为准。</p>
+    <div class="wrap wrap--read">
+        <p class="eyebrow reveal">GARUPA 101 · 新人向</p>
+        <h1 class="page-title reveal">力儿八概论<span class="en">A Field Guide to BanG Dream!</span></h1>
+        <p class="lede reveal">《BanG Dream!》有错综复杂的养成、迷惑性极强的代币与交换所，以及颇具误导性的礼包。为帮新人避开亏本的坑，我们把常见选项的收益逐条讲清。随缘更新。</p>
+        <p class="note-faint reveal" style="margin-top:1rem;">※ 内容整理自 2025 年 3 月的攻略讨论。机制大体沿用至今，但具体活动编号、日期、抽卡规划实例均以撰写当时为准，请以游戏内实际情况为准。</p>
 
-        <h2>目录</h2>
-        <p><a href="/garupaintro/introduction/" style="text-decoration: none; color: inherit">写在前面</a></p>
-        <p><a href="/garupaintro/gacha/" style="text-decoration: none; color: inherit">关于抽卡</a></p>
-        <p><a href="/garupaintro/training/" style="text-decoration: none; color: inherit">关于养成</a></p>
-        <p><a href="/garupaintro/resource/" style="text-decoration: none; color: inherit">养成资源、代币和交换所</a></p>
-        <p><a href="/garupaintro/playing/" style="text-decoration: none; color: inherit">打歌：从入门到熟练</a></p>
-        <p><a href="/garupaintro/ranking/" style="text-decoration: none; color: inherit">关于冲榜</a></p>
+        <hr class="rule5">
+
+        <nav class="toc" aria-label="概论目录">
+            <a class="toc__item" href="/garupaintro/introduction/">
+                <span class="toc__no">01</span><span class="toc__spine" aria-hidden="true"></span>
+                <span><span class="toc__title">📖 写在前面</span></span>
+                <span class="toc__go" aria-hidden="true">→</span>
+            </a>
+            <a class="toc__item" href="/garupaintro/gacha/">
+                <span class="toc__no">02</span><span class="toc__spine" aria-hidden="true"></span>
+                <span><span class="toc__title">🎴 关于抽卡</span></span>
+                <span class="toc__go" aria-hidden="true">→</span>
+            </a>
+            <a class="toc__item" href="/garupaintro/training/">
+                <span class="toc__no">03</span><span class="toc__spine" aria-hidden="true"></span>
+                <span><span class="toc__title">🌱 关于养成</span></span>
+                <span class="toc__go" aria-hidden="true">→</span>
+            </a>
+            <a class="toc__item" href="/garupaintro/resource/">
+                <span class="toc__no">04</span><span class="toc__spine" aria-hidden="true"></span>
+                <span><span class="toc__title">💎 养成资源、代币和交换所</span></span>
+                <span class="toc__go" aria-hidden="true">→</span>
+            </a>
+            <a class="toc__item" href="/garupaintro/playing/">
+                <span class="toc__no">05</span><span class="toc__spine" aria-hidden="true"></span>
+                <span><span class="toc__title">🎵 打歌：从入门到熟练</span></span>
+                <span class="toc__go" aria-hidden="true">→</span>
+            </a>
+            <a class="toc__item" href="/garupaintro/ranking/">
+                <span class="toc__no">06</span><span class="toc__spine" aria-hidden="true"></span>
+                <span><span class="toc__title">🏆 关于冲榜</span></span>
+                <span class="toc__go" aria-hidden="true">→</span>
+            </a>
+        </nav>
     </div>
+
+    <footer class="site-footer">
+        <div class="foot-inner">
+            <span>组合数学 · 力儿八概论</span>
+            <span class="foot-mono">GARUPA 101 · 06 TRACKS</span>
+        </div>
+    </footer>
+
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            // 页面加载完成后添加active类触发动画
-            setTimeout(() => {
-                document.querySelector('.container').classList.add('active');
-            }, 100); // 添加100ms延迟确保动画生效
+            document.querySelectorAll('.reveal').forEach((el, i) => {
+                setTimeout(() => el.classList.add('in'), 90 + i * 110);
+            });
         });
     </script>
 </body>

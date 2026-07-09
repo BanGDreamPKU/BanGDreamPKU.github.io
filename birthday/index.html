@@ -1,28 +1,36 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>邦邦生日提醒</title>
+    <title>组合数学 · 生日提醒</title>
+    <link rel="stylesheet" href="/common/theme.css">
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" type="image/png" href="https://bestdori.com/assets/cn/deco/pins_rip/deco_pins015003.png" />
 </head>
+
 <body>
     <div id="top-bar-placeholder" chinese_pathname="/生日提醒"></div>
     <script src="/common/top-bar/load.js"></script>
+    <script src="/common/card-bg.js"></script>
 
     <div id="main-container">
+        <header class="bd-head">
+            <p class="eyebrow">角色 · 声优生日倒数</p>
+            <h1 class="page-title">生日提醒<span class="en">Birthday Countdown</span></h1>
+            <p class="lede">按最近的生日排序，点击任意卡片可跳转到对应的萌娘百科条目。日期以东京时间（GMT+9）计算。</p>
+        </header>
+
         <!-- 今日生日区域 -->
         <section id="today-birthdays">
             <h2 class="section-title">
-                <i class="icon-cake"></i>
+                <span class="section-title__spine" aria-hidden="true"></span>
                 今日邦邦生日
             </h2>
             <div id="today-birthdays-list">
-                <!-- 今日寿星将在这里动态加载 -->
                 <div class="today-empty-card loading-card">
-                    <i class="icon-spinner icon-spin"></i>
-                    <p>正在加载今日生日数据...</p>
+                    <p>正在加载今日生日数据…</p>
                 </div>
             </div>
         </section>
@@ -30,20 +38,25 @@
         <!-- 所有生日列表区域 -->
         <section id="all-birthdays-section">
             <h2 class="section-title">
-                <i class="icon-list-alt"></i>
+                <span class="section-title__spine" aria-hidden="true"></span>
                 生日列表
             </h2>
             <div id="all-birthdays-list">
-                <!-- 所有生日数据将在这里动态加载 -->
                 <div class="all-empty-card loading-card">
-                    <i class="icon-spinner icon-spin"></i>
-                    <p>正在加载生日数据...</p>
+                    <p>正在加载生日数据…</p>
                 </div>
             </div>
         </section>
     </div>
 
-    <!-- 引入本地JavaScript文件 -->
+    <footer class="site-footer">
+        <div class="foot-inner">
+            <span>组合数学 · 生日提醒</span>
+            <span class="foot-mono">sorted by next birthday · GMT+9</span>
+        </div>
+    </footer>
+
     <script src="script.js"></script>
 </body>
+
 </html>
