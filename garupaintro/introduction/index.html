@@ -58,6 +58,25 @@
             margin-bottom: 0.6rem;
         }
 
+        /* 返回上一级按钮 */
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 1rem;
+            padding: 0.5rem 1.1rem;
+            font-size: 0.95rem;
+            color: #94070a;
+            background: #fff;
+            border: 1px solid #94070a;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .back-btn:hover {
+            background: #94070a;
+            color: #fff;
+        }
+
         /* 新增移动端专用样式 */
         @media (max-width: 480px) {
             h1 {
@@ -75,6 +94,11 @@
                 max-width: 100%;
                 height: auto;
             }
+
+            .back-btn {
+                font-size: 0.9rem;
+                padding: 0.4rem 0.9rem;
+            }
         }
     </style>
 </head>
@@ -84,6 +108,7 @@
     <script src="/common/top-bar/load.js"></script>
 
     <div class="content">
+        <a class="back-btn" href="/garupaintro/">← 返回上一级</a>
         <h1>写在前面</h1>
         <p>首先，可能也是最重要的一件事：邦多利是一款游戏，那就和其他所有游戏一样，开心当然是最重要的。以下介绍的繁杂的规则都是为了更好地达成愿望（e.g. 抽到想要的角色，获得 SS 评级，在活动中拿到靠前的牌子等等），而不是必须一丝不苟遵循的教条。所以如果看了本教程后发现自己之前亏了很多，也不必太过懊恼，反正总能慢慢补上的。（当然如果真的亏得很多也可以试试重开一个号）</p>
 

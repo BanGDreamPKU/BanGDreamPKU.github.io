@@ -56,6 +56,25 @@
             text-align: justify;
         }
 
+        /* 返回上一级按钮 */
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 1rem;
+            padding: 0.5rem 1.1rem;
+            font-size: 0.95rem;
+            color: #94070a;
+            background: #fff;
+            border: 1px solid #94070a;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .back-btn:hover {
+            background: #94070a;
+            color: #fff;
+        }
+
         /* 新增移动端专用样式 */
         @media (max-width: 480px) {
             h1 {
@@ -72,6 +91,11 @@
                 max-width: 100%;
                 height: auto;
             }
+
+            .back-btn {
+                font-size: 0.9rem;
+                padding: 0.4rem 0.9rem;
+            }
         }
     </style>
 </head>
@@ -81,6 +105,7 @@
     <script src="/common/top-bar/load.js"></script>
 
     <div class="content">
+        <a class="back-btn" href="/garupaintro/">← 返回上一级</a>
         <h1>养成资源、代币和交换所</h1>
         <p>邦邦的各种资源可能是游戏内最让新手困扰的部分，以下内容供大家参考。首先，建立一个基本概念：<b>星石 &gt; 熊饼 &gt; 其他</b>，以此为参照，就不会搞出太多令人啼笑皆非的错误。接下来逐个介绍游戏内的养成资源。</p>
 

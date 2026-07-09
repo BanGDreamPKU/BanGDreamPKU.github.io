@@ -27,6 +27,36 @@
     color: #f4f4f9;
     letter-spacing: 1px;
     padding-top: 1px;
+    /* 面包屑容器：允许在窄屏换行，避免溢出 */
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    max-width: 45vw;
+    overflow: hidden;
+}
+
+/* 面包屑中的可点击链接 */
+.top-bar .left-text .crumb-link {
+    color: #f4f4f9;
+    text-decoration: none;
+    opacity: 0.85;
+    transition: opacity 0.2s;
+}
+
+.top-bar .left-text .crumb-link:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+/* 面包屑中的当前页（不可点击） */
+.top-bar .left-text .crumb-current {
+    color: #f4f4f9;
+}
+
+/* 层级分隔符 */
+.top-bar .left-text .crumb-sep {
+    margin: 0 5px;
+    opacity: 0.6;
 }
 
 .top-bar .right-text {
@@ -55,7 +85,24 @@
     }
 
     .top-bar .left-text {
-        display: none
+        /* 移动端不再隐藏，而是缩到只显示当前页名，
+           通过 max-width 限制并允许省略 */
+        font-size: 12px;
+        max-width: 40vw;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* 移动端空间有限，只显示最后一段（当前页名），
+       上级路径可通过正文里的"返回上一级"按钮到达 */
+    .top-bar .left-text .crumb-link,
+    .top-bar .left-text .crumb-sep {
+        display: none;
+    }
+
+    .top-bar .left-text .crumb-current {
+        display: inline;
     }
 
     .top-bar .right-text {

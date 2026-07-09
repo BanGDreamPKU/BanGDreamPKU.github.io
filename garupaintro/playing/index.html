@@ -78,6 +78,25 @@
             margin-bottom: 0.6rem;
         }
 
+        /* 返回上一级按钮 */
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 1rem;
+            padding: 0.5rem 1.1rem;
+            font-size: 0.95rem;
+            color: #94070a;
+            background: #fff;
+            border: 1px solid #94070a;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .back-btn:hover {
+            background: #94070a;
+            color: #fff;
+        }
+
         /* 新增移动端专用样式 */
         @media (max-width: 480px) {
             h1 {
@@ -95,6 +114,11 @@
                 max-width: 100%;
                 height: auto;
             }
+
+            .back-btn {
+                font-size: 0.9rem;
+                padding: 0.4rem 0.9rem;
+            }
         }
     </style>
 </head>
@@ -104,6 +128,7 @@
     <script src="/common/top-bar/load.js"></script>
 
     <div class="content">
+        <a class="back-btn" href="/garupaintro/">← 返回上一级</a>
         <h1>打歌：从入门到熟练</h1>
         <p>既然入坑邦邦，相信大家都会打歌。更好的打歌，可以让你获得更高分数、更多奖励，大大提高你在这个游戏的成长速度。作为新手，除非你是其他音游转生 / 多音游兼修 / 音游天赋者，不用太着急碰 27 以上的曲目甚至凹 fc，慢慢进步就好。本篇主要围绕打歌新人的一些误区与盲区展开。</p>
 

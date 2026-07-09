@@ -77,6 +77,25 @@
             color: #444;
         }
 
+        /* 返回上一级按钮 */
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 1rem;
+            padding: 0.5rem 1.1rem;
+            font-size: 0.95rem;
+            color: #94070a;
+            background: #fff;
+            border: 1px solid #94070a;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .back-btn:hover {
+            background: #94070a;
+            color: #fff;
+        }
+
         /* 新增移动端专用样式 */
         @media (max-width: 480px) {
             h1 {
@@ -95,6 +114,11 @@
                 max-width: 100%;
                 height: auto;
             }
+
+            .back-btn {
+                font-size: 0.9rem;
+                padding: 0.4rem 0.9rem;
+            }
         }
     </style>
 </head>
@@ -104,6 +128,7 @@
     <script src="/common/top-bar/load.js"></script>
 
     <div class="content">
+        <a class="back-btn" href="/garupaintro/">← 返回上一级</a>
         <h1>关于冲榜</h1>
         <p>冲榜是邦邦的核心玩法，也是一门学问。相比盲冲，合理地获取信息、规划冲榜能够帮助玩家合理安排时间、提高出分、节约火力、防止被意外肘飞。</p>
 
