@@ -169,9 +169,24 @@
         .panel--list {
             display: flex;
             flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 社团旗帜作背景落款：铺满整屏、压淡，不抢列表 */
+        .panel--list::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: url("/assets/flag.png") center center / cover no-repeat;
+            opacity: .1;
+            z-index: 0;
+            pointer-events: none;
         }
 
         .tracklist {
+            position: relative;
+            z-index: 1;
             flex: 1;
             width: 100%;
             max-width: var(--wide);
@@ -197,6 +212,12 @@
             font-size: 1.75rem;
             margin: 0;
             color: var(--ink);
+        }
+
+        @media (max-width: 560px) {
+            .tracklist__head h2 {
+                font-size: 1.4rem;
+            }
         }
 
         .track {
@@ -284,6 +305,8 @@
 
         /* 曲目单屏内的页脚 */
         .panel--list .site-footer {
+            position: relative;
+            z-index: 1;
             padding: 0 24px 24px;
         }
 
