@@ -136,31 +136,21 @@
     </footer>
 
     <script>
+        // 二维码托管在校内服务器，仅北京大学校园网 (CERNET2 IPv6) 可访问。
+        // 校外来源会被服务器 403 拒绝，图片加载失败后显示提示。
         document.addEventListener('DOMContentLoaded', function () {
-            const urlParams = new URLSearchParams(window.location.search);
-            const token = urlParams.get('token');
-            const qrCodeUrl = `https://qr.leo-h.top/image${token ? '?token=' + encodeURIComponent(token) : ''}`;
-
-            fetch(qrCodeUrl)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('获取二维码失败');
-                    }
-                    return response.text();
-                })
-                .then(qrCodeData => {
-                    const qrContainer = document.getElementById('qr-container');
-                    if (qrCodeData.startsWith('http') || qrCodeData.startsWith('data:image')) {
-                        qrContainer.innerHTML = `<img src="${qrCodeData}" alt="入群二维码">`;
-                    } else {
-                        qrContainer.innerHTML = `<p class="error">二维码数据无效，请稍后重试</p>`;
-                    }
-                })
-                .catch(error => {
-                    console.error('Error fetching QR code:', error);
-                    document.getElementById('qr-container').innerHTML =
-                        `<p class="error">加载失败，请使用校园网，或在树洞 5542735 获取校外访问链接。</p>`;
-                });
+            const qrContainer = document.getElementById('qr-container');
+            const img = new Image();
+            img.alt = '入群二维码';
+            img.onload = function () {
+                qrContainer.innerHTML = '';
+                qrContainer.appendChild(img);
+            };
+            img.onerror = function () {
+                qrContainer.innerHTML =
+                    `<p class="error">加载失败，请使用校园网，或在树洞 5542735 获取校外访问链接。</p>`;
+            };
+            img.src = 'https://comb947.dedyn.io/qr.png';
         });
     </script>
     <script src="/common/reveal.js"></script>
