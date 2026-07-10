@@ -165,7 +165,7 @@
             }
         }
 
-        /* ===== 第二屏：曲目单 ===== */
+        /* ===== 第二屏：功能列表（曲目单样式） ===== */
         .panel--list {
             display: flex;
             flex-direction: column;
@@ -303,7 +303,7 @@
             transform: translateX(4px);
         }
 
-        /* 曲目单屏内的页脚 */
+        /* 功能列表屏内的页脚 */
         .panel--list .site-footer {
             position: relative;
             z-index: 1;
@@ -405,19 +405,19 @@
                 <div class="spine5 reveal" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
                 <p class="eyebrow reveal">北京大学 · BanG Dream! 玩家群</p>
                 <h1 class="cover__title reveal">组合数学<span class="cover__en">Combinatorics — a BanG Dream! circle at PKU</span></h1>
-                <p class="cover__lede reveal">始于国服，也欢迎日服玩家，以及只想聊剧情、二创和企划新闻的朋友。凑齐这支乐队，差你一个。</p>
+                <p class="cover__lede reveal">这是一个由北京大学 BanG Dream! 爱好者组成的兴趣社群。始于国服，也欢迎日服玩家，以及只想聊剧情、二创和企划新闻的朋友。只要不是完全不知道邦邦就行！</p>
             </div>
-            <button class="scroll-cue" id="scroll-cue" type="button" aria-label="往下看本站曲目">
-                <span>往下看曲目</span>
+            <button class="scroll-cue" id="scroll-cue" type="button" aria-label="往下看本站功能">
+                <span>往下看功能</span>
                 <span class="scroll-cue__arrow" aria-hidden="true">↓</span>
             </button>
         </header>
 
-        <!-- 第二屏：曲目单 -->
+        <!-- 第二屏：功能列表 -->
         <section class="panel panel--list">
             <main class="tracklist">
                 <div class="tracklist__head">
-                    <h2>本站曲目</h2>
+                    <h2>本站功能</h2>
                     <span class="track-no">PROGRAM / 04 TRACKS</span>
                 </div>
 
@@ -446,7 +446,7 @@
                     <span class="track__spine" aria-hidden="true"></span>
                     <span class="track__body">
                         <span class="track__title">生日提醒</span>
-                        <span class="track__desc">角色与声优生日倒数，别错过每一个池子</span>
+                        <span class="track__desc">角色与声优生日倒数，别错过想抽的生日池</span>
                     </span>
                     <span class="track__go" aria-hidden="true">→</span>
                 </a>
@@ -483,7 +483,7 @@
             const backTop = document.getElementById('back-to-top');
             const list = document.querySelector('.panel--list');
 
-            // 点提示箭头滚到曲目单，点“回到封面”滚回顶部
+            // 点提示箭头滚到功能列表，点“回到封面”滚回顶部
             if (cue && list) {
                 cue.addEventListener('click', () => list.scrollIntoView({ behavior: 'smooth' }));
             }
