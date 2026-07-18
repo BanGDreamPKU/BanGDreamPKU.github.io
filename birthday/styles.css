@@ -224,6 +224,13 @@
     }
 }
 
+@media (min-width: 1280px) {
+    #today-birthdays-list,
+    #all-birthdays-list {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+}
+
 @media (max-width: 640px) {
     #main-container {
         padding: 72px 18px 32px;
